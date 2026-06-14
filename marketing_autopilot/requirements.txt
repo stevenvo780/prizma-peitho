@@ -1,0 +1,8 @@
+google-genai>=1.63.0
+facebook-business>=24.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+Pillow>=10.2.0
+pydantic>=2.0.0
+pytest>=8.0.0
+pytest-mock>=3.0.0

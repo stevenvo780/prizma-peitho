@@ -23,7 +23,7 @@ class TestProductos:
         assert len(PRODUCTOS) == 8
 
     def test_keys_esperadas(self):
-        expected = {"humanizar", "emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"}
+        expected = {"prizma", "emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"}
         assert set(PRODUCTOS.keys()) == expected
 
     def test_cada_producto_tiene_campos_requeridos(self):
@@ -36,8 +36,8 @@ class TestProductos:
         for key, prod in PRODUCTOS.items():
             assert prod["url"].startswith("https://"), f"URL de '{key}' no es HTTPS: {prod['url']}"
 
-    def test_humanizar_es_marca_no_producto(self):
-        assert PRODUCTOS["humanizar"]["tipo"] == "marca"
+    def test_prizma_es_marca_no_producto(self):
+        assert PRODUCTOS["prizma"]["tipo"] == "marca"
 
     def test_productos_tienen_tipo_producto(self):
         for key in ["emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"]:
@@ -60,7 +60,7 @@ class TestProductos:
 
 class TestPainPoints:
     def test_tiene_7_productos(self):
-        assert len(PAIN_POINTS) == 7  # No humanizar (es marca)
+        assert len(PAIN_POINTS) == 7  # No prizma (es marca)
 
     def test_todos_los_productos_activos(self):
         for key in ["emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"]:
@@ -102,10 +102,10 @@ class TestBuildUtmUrl:
 
 
 class TestGenerarCaptionIg:
-    def test_humanizar_caption(self):
-        caption = generar_caption_ig("humanizar")
-        assert "ecosistema" in caption.lower() or "humanizar" in caption.lower()
-        assert "humanizar.co" in caption
+    def test_prizma_caption(self):
+        caption = generar_caption_ig("prizma")
+        assert "ecosistema" in caption.lower() or "prizma" in caption.lower() or "humanizar" in caption.lower()
+        assert "humanizar.co" in caption  # domain kept until R4
 
     def test_emw_caption_correcto(self):
         caption = generar_caption_ig("emw")

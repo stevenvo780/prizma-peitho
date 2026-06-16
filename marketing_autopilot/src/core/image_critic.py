@@ -12,7 +12,7 @@ Las imágenes rechazadas se mueven a _rejected/ y se regeneran con feedback del 
 Uso:
   python3 -m src.image_critic --todos                   # evalúa todo
   python3 -m src.image_critic --todos --regenerar        # evalúa y regenera las que fallen
-  python3 -m src.image_critic --producto humanizar       # solo un producto
+  python3 -m src.image_critic --producto prizma           # solo un producto
   python3 -m src.image_critic --umbral 75                # puntaje mínimo personalizado
   python3 -m src.image_critic --max-intentos 3           # máximo intentos de regeneración
 """
@@ -150,7 +150,7 @@ EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total m�
    Slack, Discord, Zoom, Teams, Notion, Trello, Jira, GitHub, GitLab,
    Samsung, Xiaomi, Huawei, Android, iOS, Chrome, Firefox, Safari,
    Visa, Mastercard, PayPal, Stripe, Nequi, Daviplata, PSE,
-   Coca-Cola, Nike, Adidas, o CUALQUIER otra marca reconocible que NO sea Humanizar ni sus productos.
+   Coca-Cola, Nike, Adidas, o CUALQUIER otra marca reconocible que NO sea Prizma ni sus productos.
    
    Incluye también: favicons (aunque sean DIMINUTOS), app icons, brand shapes reconocibles,
    colores corporativos en contexto de marca, barras de navegador con logos reales.
@@ -206,7 +206,7 @@ class ImageCritic:
         
         Args:
             ruta_imagen: ruta absoluta a la imagen PNG
-            producto_key: clave del producto en PRODUCTOS (ej: 'humanizar', 'emw')
+            producto_key: clave del producto en PRODUCTOS (ej: 'prizma', 'emw')
             formato: tipo de imagen ('feed_1x1', 'story_9x16', 'banner_16x9', 'promo_1x1')
         
         Returns:
@@ -353,7 +353,7 @@ class ImageCritic:
             for t in textos_lower:
                 # Buscar marcas en cada texto (puede ser substring)
                 for marca in MARCAS_PROHIBIDAS:
-                    if marca in t and marca not in {"graf", "emw", "fiar", "agora", "terminal", "sinergia", "humanizar", "meravuelta", "mera vuelta"}:
+                    if marca in t and marca not in {"graf", "emw", "fiar", "agora", "terminal", "sinergia", "prizma", "meravuelta", "mera vuelta"}:
                         auto_rechazada = True
                         msg = f"⛔ Texto contiene marca prohibida: '{marca}' encontrada en '{t}'"
                         if msg not in defectos:
@@ -373,7 +373,7 @@ class ImageCritic:
         for marca in MARCAS_PROHIBIDAS:
             if marca in texto_completo and marca not in {
                 "graf", "emw", "fiar", "agora", "terminal",
-                "sinergia", "humanizar", "meravuelta", "mera vuelta",
+                "sinergia", "prizma", "meravuelta", "mera vuelta",
             }:
                 auto_rechazada = True
                 msg = f"⛔ Marca mencionada en observaciones: '{marca}'"
@@ -420,8 +420,8 @@ class ImageCritic:
     _PROMPT_MARCAS = """
 Eres un inspector de marcas comerciales especializado en detectar logos y brandings de terceros.
 Tu ÚNICA tarea es examinar esta imagen y determinar si contiene CUALQUIER logo, favicon,
-icono o nombre de marca que NO pertenezca a la empresa "Humanizar" o sus productos
-(humanizar, emw, graf, meravuelta, sinergia, agora, terminal, fiar).
+icono o nombre de marca que NO pertenezca a la empresa "Prizma" o sus productos
+(prizma, emw, graf, meravuelta, sinergia, agora, terminal, fiar).
 
 INSTRUCCIONES CRÍTICAS:
 1. Si la imagen muestra una pantalla de laptop/monitor/teléfono/tablet:
@@ -777,7 +777,7 @@ RESPONDE EXCLUSIVAMENTE en JSON válido:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod.get("logos", [])
-        cta = prod.get("cta", "humanizar.co")
+        cta = prod.get("cta", "prisma-enterprice.cloud")
         linea = prod.get("linea", "")
 
         # Instrucción de tema
@@ -808,7 +808,7 @@ RESPONDE EXCLUSIVAMENTE en JSON válido:
                 f"Es el intento #{intento}. Asegúrate de corregir los problemas señalados.\n"
                 f"⛔ REMINDER: Do NOT include ANY logos, icons, or names of third-party brands "
                 f"(Google, Apple, Hostinger, WhatsApp icon, Shopify, etc.). "
-                f"ONLY Humanizar products are allowed.\n"
+                f"ONLY Prizma products are allowed.\n"
             )
 
         # Construir prompt según formato
@@ -941,7 +941,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Crítico visual de imágenes de marca — Humanizar"
+        description="Crítico visual de imágenes de marca — Prizma"
     )
     parser.add_argument(
         "--producto", type=str,

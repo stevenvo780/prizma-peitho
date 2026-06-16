@@ -40,7 +40,7 @@ COMANDOS = {
 
 def mostrar_ayuda():
     print()
-    print("\033[1m  HUMANIZAR SYSTEMS — Marketing Autopilot\033[0m")
+    print("\033[1m  PRIZMA — Marketing Autopilot\033[0m")
     print("\033[2m  ─────────────────────────────────────────\033[0m")
     print()
     print("  \033[1mUso:\033[0m  python3 run.py <comando> [opciones]")

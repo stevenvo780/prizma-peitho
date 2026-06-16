@@ -28,8 +28,8 @@ QUEUE_DIR = OUTPUT_DIR / "queue"
 LOG_DIR = OUTPUT_DIR / "logs"
 
 # Repositorios hermanos
-HUMANIZAR_DOCS_DIR = PROJECT_ROOT.parent.parent / "HumanizarDocs"
-BRAND_ASSETS_DIR = HUMANIZAR_DOCS_DIR / "Imagen de marca"
+PRIZMA_DOCS_DIR = PROJECT_ROOT.parent.parent / "HumanizarDocs"
+BRAND_ASSETS_DIR = PRIZMA_DOCS_DIR / "Imagen de marca"
 SCREENSHOTS_DIR = BRAND_ASSETS_DIR / "capturas"
 NARRATIVA_PATH = BRAND_ASSETS_DIR / "NARRATIVA_MARCA.md"
 
@@ -203,9 +203,9 @@ def build_utm_url(
     Construye una URL con parámetros UTM para tracking de conversiones.
 
     Uso:
-        url = build_utm_url("https://emw.humanizar.cloud",
-                            campaign="lanzamiento_feb26",
-                            content="post_feed_emw")
+        url = build_utm_url("https://iris.prisma-enterprice.cloud",
+                            campaign="lanzamiento_peitho",
+                            content="post_feed_iris")
     """
     from urllib.parse import urlencode, urlparse, urlunparse, parse_qs
 
@@ -227,8 +227,8 @@ def build_utm_url(
 # ------------------------------------------------------------------ #
 
 PRODUCTOS = {
-    "humanizar": {
-        "nombre": "Humanizar",
+    "prizma": {
+        "nombre": "Prizma",
         "tipo": "marca",
         "descripcion": "Ecosistema de software que conecta ventas, operación y automatización en una sola suite empresarial para pymes colombianas",
         "slogan": "Activa ventas, operación y automatización en una sola suite empresarial",
@@ -236,17 +236,17 @@ PRODUCTOS = {
         "color_secundario": "#2a2c39",
         "color_fondo": "#f6f9ff",
         "tema": "claro",
-        "url": "https://www.humanizar.co",
-        "cta": "Empieza gratis → humanizar.co",
+        "url": "https://prisma-enterprice.cloud",
+        "cta": "Empieza gratis → prisma-enterprice.cloud",
         "productos_estrella": ["Graf", "EMW"],
         "logos": [
-            "logos/humanizar/humanizar-1080-variante1.png",
-            "logos/humanizar/humanizar-1080-variante2.png",
-            "logos/humanizar/humanizar-arbol-blanco.png",
-            "logos/humanizar/humanizar-v2.png",
+            "logos/prizma/prizma-1080-variante1.png",
+            "logos/prizma/prizma-1080-variante2.png",
+            "logos/prizma/prizma-arbol-blanco.png",
+            "logos/prizma/prizma-v2.png",
         ],
         "screenshots": [
-            "capturas/humanizar/humanizar-web-fullpage.png",
+            "capturas/prizma/prizma-web-fullpage.png",
         ],
     },
     "emw": {
@@ -258,8 +258,8 @@ PRODUCTOS = {
         "color_secundario": "#128C7E",
         "color_fondo": "#ffffff",
         "tema": "claro",
-        "url": "https://emw.humanizar.cloud",
-        "cta": "Empieza gratis → emw.humanizar.cloud",
+        "url": "https://iris.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → iris.prisma-enterprice.cloud",
         "precio_desde": "$88.000",
         "linea": "Comercial",
         "publico_objetivo": "Equipos de ventas y marketing que necesitan captar y reactivar clientes por WhatsApp",
@@ -360,8 +360,8 @@ PRODUCTOS = {
         "color_secundario": "#ffa726",
         "color_fondo": "#121212",
         "tema": "oscuro",
-        "url": "https://agora.humanizar.cloud",
-        "cta": "Empieza gratis → agora.humanizar.cloud",
+        "url": "https://agora.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → agora.prisma-enterprice.cloud",
         "precio_desde": "$30.000/mes",
         "linea": "Productividad",
         "publico_objetivo": "Equipos técnicos, academias y empresas que necesitan workspace colaborativo en la nube",
@@ -384,8 +384,8 @@ PRODUCTOS = {
         "color_secundario": "#4db6ac",
         "color_fondo": "#121212",
         "tema": "oscuro",
-        "url": "https://terminal.humanizar-dev.cloud",
-        "cta": "Empieza gratis → terminal.humanizar-dev.cloud",
+        "url": "https://terminal.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → terminal.prisma-enterprice.cloud",
         "precio_desde": "$10/mes",
         "linea": "Productividad",
         "publico_objetivo": "Equipos de soporte técnico y operaciones que necesitan acceso remoto a servidores",
@@ -406,8 +406,8 @@ PRODUCTOS = {
         "color_secundario": "#06d6a0",
         "color_fondo": "#f5eedc",
         "tema": "claro",
-        "url": "https://fiar.humanizar.cloud",
-        "cta": "Empieza gratis → fiar.humanizar.cloud",
+        "url": "https://pistis.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → pistis.prisma-enterprice.cloud",
         "precio_desde": "Próximamente",
         "linea": "Facturación",
         "publico_objetivo": "Comercios que fían a clientes y necesitan trazabilidad digital de créditos",
@@ -427,12 +427,12 @@ PRODUCTOS = {
 # ------------------------------------------------------------------ #
 
 VISUAL_GUIDELINES = """
-VISUAL BRAND GUIDELINES — HUMANIZAR SYSTEMS:
+VISUAL BRAND GUIDELINES — PRIZMA:
 - Style: tech-premium, clean, modern. NO clip-art, NO generic stock photos.
 - Colombian context: if people appear, reflect real Colombian workplace diversity.
 - NO mockup devices with fake screens. Prefer real workspace scenes or abstract data visualizations.
 - Each product has its OWN color palette (see product config) — ALWAYS use it.
-- The Humanizar umbrella brand uses royal blue #4154f1 — include subtly as brand marker.
+- The Prizma umbrella brand uses royal blue #4154f1 — include subtly as brand marker.
 - Typography feel: Open Sans (clean body), Nunito (rounded headings).
 - Light themes: white/light gray backgrounds with colored accents.
 - Dark themes: deep dark backgrounds (#121212 or similar) with vibrant accents.
@@ -447,8 +447,8 @@ DO NOT include ANY logos, icons, names, or visual elements from external brands.
 This includes but is not limited to: Google, Apple, Microsoft, Amazon, Meta, Facebook,
 Instagram, WhatsApp icon, Hostinger, GoDaddy, Shopify, WordPress, Slack, Discord,
 Visa, Mastercard, PayPal, Chrome, Android, Windows, Nike, Adidas, Uber, Rappi,
-or ANY other recognizable brand that is NOT part of Humanizar Systems.
-The ONLY brands allowed are: Humanizar, EMW, Graf, Mera Vuelta, Sinergia POS,
+or ANY other recognizable brand that is NOT part of Prizma.
+The ONLY brands allowed are: Prizma, EMW, Graf, Mera Vuelta, Sinergia POS,
 Agora, Terminal, Fiar. NO EXCEPTIONS.
 If you feel tempted to add a recognizable icon for context — DON'T. Use abstract shapes instead.
 """
@@ -485,17 +485,17 @@ def generar_caption_ig(producto_key: str) -> str:
     nombre = prod["nombre"]
     desc = prod["descripcion"]
     slogan = prod["slogan"]
-    url = prod.get("url", "https://www.humanizar.co")
+    url = prod.get("url", "https://prisma-enterprice.cloud")
     precio = prod.get("precio_desde", "")
     linea = prod.get("linea", "")
 
     # Estructura: gancho → solución → prueba social → CTA
-    if producto_key == "humanizar":
+    if producto_key == "prizma":
         caption = (
             "¿Cansado de saltar entre apps y perder el control de tu negocio? 🤯\n\n"
             f"{desc}.\n"
             "Más de 60 pymes colombianas ya simplificaron su día a día.\n\n"
-            f"¡Conoce el ecosistema! 👉 {url}\n\n"
+            f"¡Conoce el ecosistema Prizma! 👉 {url}\n\n"
             "#pymescolombia #emprendimientocolombiano #softwareparapymes "
             "#gestionempresarial #transformaciondigital"
         )

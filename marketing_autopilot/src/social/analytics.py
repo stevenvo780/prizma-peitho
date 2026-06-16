@@ -318,7 +318,7 @@ class SocialAnalytics:
             output_path = os.path.join(str(OUTPUT_DIR), f"reporte_analytics_{timestamp}.md")
 
         lines = [
-            f"# 📊 Reporte de Analytics — Humanizar Systems",
+            f"# 📊 Reporte de Analytics — Prizma",
             f"",
             f"> Generado: {fecha_legible}",
             f"",
@@ -421,7 +421,7 @@ class SocialAnalytics:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Analytics de redes sociales — Humanizar Systems"
+        description="Analytics de redes sociales — Prizma"
     )
     parser.add_argument("--resumen", action="store_true", help="Resumen de últimos 30 días")
     parser.add_argument("--posts", action="store_true", help="Métricas por post (FB + IG)")

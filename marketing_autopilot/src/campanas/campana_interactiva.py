@@ -723,7 +723,7 @@ def _generar_mensaje_fb(producto_key: str, tematica: str = "") -> str:
     nombre = prod.get("nombre", "")
     desc = prod.get("descripcion", "")
     slogan = prod.get("slogan", "")
-    url = prod.get("url", "https://www.humanizar.co")
+    url = prod.get("url", "https://prisma-enterprice.cloud")
     cta = prod.get("cta", "")
 
     url_utm = build_utm_url(
@@ -736,7 +736,7 @@ def _generar_mensaje_fb(producto_key: str, tematica: str = "") -> str:
 
     tema_line = f"\n🎯 {tematica}\n" if tematica else ""
 
-    if producto_key == "humanizar":
+    if producto_key == "prizma":
         return (
             f"🚀 {slogan}{tema_line}\n"
             f"{desc}.\n\n"
@@ -947,7 +947,7 @@ def main():
     """Ejecuta el pipeline completo step-by-step."""
     print()
     print(c("╔══════════════════════════════════════════════════════════════════╗", "magenta"))
-    print(c("║      HUMANIZAR SYSTEMS — CAMPAÑA INTERACTIVA v1.0              ║", "magenta"))
+    print(c("║      PRIZMA — CAMPAÑA INTERACTIVA v1.0                         ║", "magenta"))
     print(c("║      Pipeline: Generar → Evaluar → Revisar → Publicar         ║", "magenta"))
     print(c("╚══════════════════════════════════════════════════════════════════╝", "magenta"))
 

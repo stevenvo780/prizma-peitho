@@ -254,7 +254,7 @@ class ImageGenerator:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod["logos"]
-        cta = prod.get("cta", "humanizar.co")
+        cta = prod.get("cta", "prisma-enterprice.cloud")
         linea = prod.get("linea", "")
         pain = ""
         # Extraer pain point del tipo de producto
@@ -549,7 +549,7 @@ class ImageGenerator:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod["logos"]
-        cta = prod.get("cta", "humanizar.co")
+        cta = prod.get("cta", "prisma-enterprice.cloud")
         linea = prod.get("linea", "")
         screenshots = prod.get("screenshots", [])
 
@@ -658,7 +658,7 @@ class ImageGenerator:
                 "agora": "Tip: Crea espacios separados por proyecto para mantener el orden",
                 "terminal": "Tip: Agrupa tus servidores por ambiente (dev/staging/prod)",
                 "fiar": "Tip: Configura alertas de vencimiento para cobrar a tiempo",
-                "humanizar": "Tip: Conecta Graf + EMW para vender y comunicar desde un solo lugar",
+                "prizma": "Tip: Conecta Graf + EMW para vender y comunicar desde un solo lugar en Prizma",
             }
             tip = tip_map.get(producto_key, f"Tip: Aprovecha {nombre} al máximo")
             prompt = (
@@ -681,7 +681,7 @@ class ImageGenerator:
                 "agora": "5x más productivo con workspace unificado en la nube",
                 "terminal": "90% menos tiempo resolviendo tickets con acceso remoto directo",
                 "fiar": "60% menos cartera vencida con alertas automáticas de cobro",
-                "humanizar": "8 herramientas conectadas en un solo ecosistema empresarial",
+                "prizma": "8 herramientas Prizma conectadas en un solo ecosistema empresarial",
             }
             stat = stat_map.get(producto_key, f"Resultados reales con {nombre}")
             prompt = (
@@ -704,7 +704,7 @@ class ImageGenerator:
                 "agora": "Editor de código + terminal + chat en un solo workspace",
                 "terminal": "Acceso SSH desde el navegador sin configurar VPN",
                 "fiar": "Historial completo de créditos y pagos por cliente",
-                "humanizar": "Suite completa: ventas, operación y automatización integradas",
+                "prizma": "Prizma Suite completa: ventas, operación y automatización integradas",
             }
             feature = feature_map.get(producto_key, desc)
             prompt = (
@@ -742,7 +742,7 @@ class ImageGenerator:
                 "agora": "Todo el equipo trabaja en un solo lugar gracias a Agora",
                 "terminal": "Resolvemos tickets en minutos sin necesitar VPN con Terminal",
                 "fiar": "Redujimos la cartera vencida un 60% con Fiar",
-                "humanizar": "Humanizar nos conectó ventas, entregas y facturación en un solo lugar",
+                "prizma": "Prizma nos conectó ventas, entregas y facturación en un solo lugar",
             }
             quote = testimonial_map.get(producto_key, f"Transformamos nuestro negocio con {nombre}")
             prompt = (
@@ -858,7 +858,7 @@ class ImageGenerator:
     def generar_imagen_para_post(
         self,
         prompt_imagen: str,
-        producto_key: str = "humanizar",
+        producto_key: str = "prizma",
         aspect_ratio: str = "1:1",
     ) -> str:
         """
@@ -868,7 +868,7 @@ class ImageGenerator:
         
         Retorna el path de la imagen generada.
         """
-        prod = PRODUCTOS.get(producto_key, PRODUCTOS["humanizar"])
+        prod = PRODUCTOS.get(producto_key, PRODUCTOS["prizma"])
         logos = prod["logos"]
         tema = prod.get("tema", "claro")
         color_bg = prod.get("color_fondo", "#ffffff")
@@ -907,7 +907,7 @@ class ImageGenerator:
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Generador de Imágenes de Marca — Humanizar")
+    parser = argparse.ArgumentParser(description="Generador de Imágenes de Marca — Prizma")
     parser.add_argument("--producto", type=str, help=f"Producto: {list(PRODUCTOS.keys())}")
     parser.add_argument("--todos", action="store_true", help="Generar paquetes para todos los productos")
     parser.add_argument("--texto", type=str, help="Prompt libre para generar imagen")

@@ -228,4 +228,4 @@ class MetaAdsManager:
 
 if __name__ == "__main__":
     manager = MetaAdsManager()
-    logger.info(manager.inyectar_presupuesto_campana("Campaña IA Humanizar Test", 50000))
+    logger.info(manager.inyectar_presupuesto_campana("Campaña IA Prizma Test", 50000))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Publicador de Instagram para Humanizar Systems.
+Publicador de Instagram para Prizma (ex Steven Vallejo).
 
 Levanta un servidor HTTP temporal + ngrok para servir imágenes,
 luego publica los 8 productos via Instagram Content Publishing API.
@@ -135,7 +135,7 @@ def publicar_en_ig(caption: str, image_url: str) -> dict:
 
 def main():
     logger.info("=" * 60)
-    logger.info("PUBLICADOR DE INSTAGRAM - Humanizar Systems v2")
+    logger.info("PUBLICADOR DE INSTAGRAM - Prizma v2")
     logger.info("=" * 60)
 
     # Verificar credenciales

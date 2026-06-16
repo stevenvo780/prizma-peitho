@@ -1,5 +1,5 @@
 """
-scheduler.py — Programador de publicaciones automáticas para Humanizar Systems.
+scheduler.py — Programador de publicaciones automáticas para Prizma (ex Steven Vallejo).
 
 Funcionalidades:
   - Genera calendario editorial semanal con Cerebro IA
@@ -186,12 +186,12 @@ class PublicationScheduler:
             print(f"   Gancho: {gancho}")
 
             # 2. Generar campaña/copy con Cerebro
-            prod_info = PRODUCTOS.get(producto_key, PRODUCTOS.get("humanizar"))
+            prod_info = PRODUCTOS.get(producto_key, PRODUCTOS.get("prizma"))
             objetivo_enriquecido = (
                 f"{objetivo}. "
                 f"Producto: {prod_info['nombre']} — {prod_info['descripcion']}. "
-                f"URL: {prod_info.get('url', 'humanizar.co')}. "
-                f"CTA: {prod_info.get('cta', 'humanizar.co')}."
+                f"URL: {prod_info.get('url', 'prisma-enterprice.cloud')}. "
+                f"CTA: {prod_info.get('cta', 'prisma-enterprice.cloud')}."
             )
             if prod_info.get("precio_desde"):
                 objetivo_enriquecido += f" Precio desde: {prod_info['precio_desde']}."
@@ -238,7 +238,7 @@ class PublicationScheduler:
 
             # 5. Construir mensaje final
             hashtags = " ".join(estrategia.get("HASHTAGS", []))
-            url_producto = prod_info.get("url", "https://www.humanizar.co")
+            url_producto = prod_info.get("url", "https://prisma-enterprice.cloud")
             copy_ig = estrategia.get("COPIES", {}).get("Instagram", "")
 
             mensaje_fb = f"{copy_fb}\n\n{hashtags}\n\n🔗 {url_producto}"
@@ -427,7 +427,7 @@ class PublicationScheduler:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Scheduler de Publicaciones — Humanizar Systems",
+        description="Scheduler de Publicaciones — Prizma",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Ejemplos de uso:

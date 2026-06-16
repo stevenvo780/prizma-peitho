@@ -1,4 +1,4 @@
-# Marketing Autopilot — Humanizar Systems
+# Marketing Autopilot — Prizma (ex Steven Vallejo)
 
 Pipeline de publicidad automatizada: genera imágenes de marca con IA, las evalúa con un crítico visual, genera copy con narrativa de marca, y publica en Facebook + Instagram.
 
@@ -194,7 +194,7 @@ Token corto (~2h)  →  Token largo (~60 días)  →  Page Token (NO EXPIRA)
 ```
 
 **Si el token expira:**
-1. [Graph Explorer](https://developers.facebook.com/tools/explorer/) → app "Humanizar" → generar User Token
+1. [Graph Explorer](https://developers.facebook.com/tools/explorer/) → app "Prizma" → generar User Token
 2. Pegar en `META_ACCESS_TOKEN` del `.env`
 3. `python3 run.py token --refresh`
 
@@ -288,7 +288,7 @@ META_PAGE_TOKEN=...               # (auto-generado, NO EXPIRA)
 | Agora | `agora` | agora.humanizar.cloud | $30.000/mes | Productividad |
 | Terminal | `terminal` | terminal.humanizar-dev.cloud | $10/mes | Productividad |
 | Fiar | `fiar` | fiar.humanizar.cloud | Próximamente | Facturación |
-| Humanizar | `humanizar` | humanizar.co | — | Ecosistema |
+| Prizma | `prizma` | humanizar.co | — | Ecosistema |
 
 ---
 
@@ -345,5 +345,5 @@ python3 run.py evaluar --help
 ### 18 Feb 2026 — Lanzamiento Digital
 - 32 imágenes generadas (8 productos × 4 formatos)
 - 8 posts en Facebook + 8 en Instagram
-- Página FB: Humanizar Systems (`1045986888587355`)
+- Página FB: Prizma (`1045986888587355`)
 - Cuenta IG: @humanizar.systems (`17841446993293838`)

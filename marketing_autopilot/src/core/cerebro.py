@@ -1,5 +1,5 @@
 """
-cerebro.py — Cerebro de marketing IA para Humanizar Systems.
+cerebro.py — Cerebro de marketing IA para Prizma (ex Steven Vallejo).
 
 Usa Gemini como motor de generación de estrategias de marketing.
 Carga la narrativa de marca como contexto del sistema para garantizar
@@ -25,24 +25,24 @@ client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 # ------------------------------------------------------------------ #
 
 # Intentar cargar NARRATIVA_MARCA.md como contexto
-_NARRATIVA_PATH = Path(__file__).resolve().parent.parent.parent.parent / "HumanizarDocs" / "Imagen de marca" / "NARRATIVA_MARCA.md"
+_NARRATIVA_PATH = Path(__file__).resolve().parent.parent.parent.parent / "HumanizarDocs" / "Imagen de marca" / "NARRATIVA_MARCA.md"  # external repo path — keep as-is until R4
 _NARRATIVA_COMPLETA = ""
 if _NARRATIVA_PATH.exists():
     _NARRATIVA_COMPLETA = _NARRATIVA_PATH.read_text(encoding="utf-8")
 
 # Contexto condensado (siempre disponible como fallback)
 BRAND_CONTEXT = """
-=== IDENTIDAD DE MARCA — HUMANIZAR SYSTEMS ===
+=== IDENTIDAD DE MARCA — PRIZMA ===
 
 QUIÉN SOMOS:
-Humanizar Systems es un ecosistema de software colombiano que conecta ventas, operación
+Prizma es un ecosistema de software colombiano que conecta ventas, operación
 y automatización en una sola suite empresarial para pymes en crecimiento.
-- Humanizar = Marca paraguas (NO es un producto individual).
+- Prizma = Marca paraguas (NO es un producto individual).
 - 60 clientes consolidados, 3 años de operación, etapa scale-up temprano.
 - País foco: Colombia. ICP: Retail/tiendas, food/dark kitchens, servicios/educación.
 
 PRODUCTOS (cada uno con su URL y pricing):
-⭐ EMW — Marketing masivo por WhatsApp ($88.000) → emw.humanizar.cloud
+⭐ EMW — Marketing masivo por WhatsApp ($88.000) → iris.prisma-enterprice.cloud
    Pain: "Tengo miles de contactos pero no sé cómo activarlos sin parecer spam"
    Ángulo: Recupera ventas dormidas con campañas segmentadas.
 
@@ -58,15 +58,15 @@ PRODUCTOS (cada uno con su URL y pricing):
    Pain: "No sé cuánto vendí hoy ni qué tengo en inventario"
    Ángulo: Control de caja e inventario en tiempo real.
 
-🏛️ Agora — Workspace colaborativo ($30.000/mes) → agora.humanizar.cloud
+🏛️ Agora — Workspace colaborativo ($30.000/mes) → agora.prisma-enterprice.cloud
    Pain: "Mi equipo trabaja en 5 herramientas y nada está conectado"
    Ángulo: Editor, terminal y workspace en un solo lugar.
 
-🖥️ Terminal — Soporte técnico remoto ($10/mes) → terminal.humanizar-dev.cloud
+🖥️ Terminal — Soporte técnico remoto ($10/mes) → terminal.prisma-enterprice.cloud
    Pain: "Acceder a servidores remotos es un dolor"
    Ángulo: Soporte ágil desde el navegador.
 
-💰 Fiar — Control de créditos (Próximamente) → fiar.humanizar.cloud
+💰 Fiar — Control de créditos (Próximamente) → pistis.prisma-enterprice.cloud
    Pain: "Fío a clientes pero no tengo trazabilidad de quién debe cuánto"
    Ángulo: Control digital de cartera.
 
@@ -97,10 +97,10 @@ ESTRUCTURA DE POST IDEAL:
 [3-5 hashtags relevantes]
 
 REGLAS ABSOLUTAS:
-✅ Usar URL del producto específico, NUNCA humanizar.co genérico (salvo awareness).
+✅ Usar URL del producto específico, NUNCA prisma-enterprice.cloud genérico (salvo awareness).
 ✅ Incluir CTA claro con precio o beneficio.
 ✅ Mencionar Colombia o contexto pyme.
-❌ NUNCA decir "Humanizar" como si fuera un producto.
+❌ NUNCA decir "Prizma" como si fuera un producto.
 ❌ NUNCA promocionar HubCentral (orquestador interno, no es producto de venta).
 ❌ NUNCA usar lenguaje corporativo vacío.
 ❌ NUNCA prometer features que no existen.
@@ -126,7 +126,7 @@ class MarketingCerebro:
 {self.brand_context}
 
 === INSTRUCCIONES ===
-Actúa como Director de Marketing experto en Performance y Growth para Humanizar S.A.S.
+Actúa como Director de Marketing experto en Performance y Growth para Prizma S.A.S.
 Aplica la narrativa de marca, voz/tono y reglas de contenido detalladas arriba.
 
 OBJETIVO DE LA CAMPAÑA: {objetivo}
@@ -170,7 +170,7 @@ Responde SOLO el JSON, sin markdown ni explicaciones.
 {self.brand_context}
 
 === INSTRUCCIONES ===
-Genera un calendario editorial de 7 días (lunes a domingo) para las redes de Humanizar Systems.
+Genera un calendario editorial de 7 días (lunes a domingo) para las redes de Prizma.
 Productos en foco esta semana: {', '.join(productos_foco)}
 
 Sigue esta distribución de tipos de contenido:
@@ -186,7 +186,7 @@ Para cada día genera:
 {{
     "dia": "lunes",
     "tipo_contenido": "pain_point|tip_educativo|testimonio|bundle|producto_secundario|behind_scenes|awareness",
-    "producto": "key del producto (emw, graf, meravuelta, sinergia, agora, terminal, fiar, humanizar)",
+    "producto": "key del producto (emw, graf, meravuelta, sinergia, agora, terminal, fiar, prizma=Prizma)",
     "objetivo": "Descripción del objetivo del post",
     "publico": "Público objetivo específico",
     "gancho": "Primera línea del post (gancho emocional)"
@@ -220,7 +220,7 @@ COPY A EVALUAR:
 \"\"\"{copy}\"\"\"
 
 Evalúa en estas dimensiones (0-100 cada una):
-1. Consistencia de voz/tono (¿suena a Humanizar?)
+1. Consistencia de voz/tono (¿suena a Prizma?)
 2. Pain point claro (¿identifica el dolor del cliente?)
 3. CTA efectivo (¿tiene URL del producto y acción clara?)
 4. Reglas cumplidas (¿respeta las reglas absolutas?)

@@ -218,7 +218,7 @@ class TokenManager:
 # ------------------------------------------------------------------ #
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Meta Token Manager — Humanizar")
+    parser = argparse.ArgumentParser(description="Meta Token Manager — Prizma")
     parser.add_argument("--status", action="store_true", help="Ver estado de todos los tokens")
     parser.add_argument("--refresh", action="store_true", help="Renovar tokens automáticamente")
     parser.add_argument("--exchange", action="store_true", help="Forzar exchange short→long-lived")

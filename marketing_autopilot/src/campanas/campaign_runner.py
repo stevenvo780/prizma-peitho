@@ -1,5 +1,5 @@
 """
-campaign_runner.py — Orquestador de campañas de marketing para Humanizar Systems.
+campaign_runner.py — Orquestador de campañas de marketing para Prizma (ex Steven Vallejo).
 
 Flujos:
   --publicar: Publicación orgánica directa (genera copy + imagen + publica)
@@ -35,24 +35,24 @@ class CampaignRunner:
         Flujo completo: Gemini genera estrategia → genera imagen → publica post.
         
         Cada post va dirigido a un PRODUCTO específico con su URL, CTA y contexto.
-        Si producto='humanizar', se hace awareness general del ecosistema.
-        
+        Si producto='prizma', se hace awareness general del ecosistema Prizma.
+
         Args:
             objetivo: Objetivo de marketing
             publico: Público objetivo
             plataforma: Facebook o Instagram
             con_imagen: Si True, genera imagen con IA y la publica
-            producto: Key del producto (emw, graf, meravuelta, sinergia, agora, terminal, fiar, humanizar)
+            producto: Key del producto (emw, graf, meravuelta, sinergia, agora, terminal, fiar, prizma=Prizma)
         """
         from image_generator import ImageGenerator
-        prod_info = PRODUCTOS.get(producto, PRODUCTOS["humanizar"])
+        prod_info = PRODUCTOS.get(producto, PRODUCTOS["prizma"])
         
         # Enriquecer el objetivo con contexto del producto
         objetivo_enriquecido = (
             f"{objetivo}. "
             f"Producto: {prod_info['nombre']} — {prod_info['descripcion']}. "
-            f"URL: {prod_info.get('url', 'humanizar.co')}. "
-            f"CTA: {prod_info.get('cta', 'humanizar.co')}."
+            f"URL: {prod_info.get('url', 'prisma-enterprice.cloud')}. "
+            f"CTA: {prod_info.get('cta', 'prisma-enterprice.cloud')}."
         )
         if prod_info.get('precio_desde'):
             objetivo_enriquecido += f" Precio desde: {prod_info['precio_desde']}."
@@ -76,9 +76,9 @@ class CampaignRunner:
         copy = estrategia["COPIES"].get(plataforma, estrategia["COPIES"].get("Facebook", ""))
         hashtags = " ".join(estrategia.get("HASHTAGS", []))
         
-        # Usar URL y CTA del producto específico (no siempre humanizar.co)
-        url_producto = prod_info.get("url", "https://www.humanizar.co")
-        cta_producto = prod_info.get("cta", "humanizar.co")
+        # Usar URL y CTA del producto específico
+        url_producto = prod_info.get("url", "https://prisma-enterprice.cloud")
+        cta_producto = prod_info.get("cta", "prisma-enterprice.cloud")
         mensaje_final = f"{copy}\n\n{hashtags}\n\n🔗 {url_producto}"
         
         logger.info("Mensaje (%d chars): %s...", len(mensaje_final), mensaje_final[:120])
@@ -137,7 +137,7 @@ class CampaignRunner:
         # Simulacion de campana (sin inyectar dinero real)
         presupuesto = 20000
         resultado_meta = self.meta.inyectar_presupuesto_campana(
-            estrategia.get('ESTRATEGIA', 'Campana Humanizar'), 
+            estrategia.get('ESTRATEGIA', 'Campana Prizma'),
             presupuesto
         )
         
@@ -149,7 +149,7 @@ class CampaignRunner:
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description="Humanizar Ads Automator")
+    parser = argparse.ArgumentParser(description="Prizma Ads Automator")
     parser.add_argument("--publicar", action="store_true", help="Generar con IA y publicar post organico real")
     parser.add_argument("--campana", action="store_true", help="Crear campana de ads (PAUSADA)")
     parser.add_argument("--imagenes", action="store_true", help="Generar paquete de imagenes de marca")
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     parser.add_argument("--publicar-siguiente", action="store_true", help="Publicar siguiente post aprobado de la cola")
     parser.add_argument("--objetivo", type=str, default="Atraer emprendedores que necesitan automatizar ventas por WhatsApp", help="Objetivo de la campana")
     parser.add_argument("--publico", type=str, default="Duenos de negocios en Colombia, 25-45 anos, e-commerce", help="Publico objetivo")
-    parser.add_argument("--producto", type=str, default="graf", help="Producto: emw, graf, meravuelta, sinergia, agora, terminal, fiar, humanizar (awareness)")
+    parser.add_argument("--producto", type=str, default="graf", help="Producto: emw, graf, meravuelta, sinergia, agora, terminal, fiar, prizma (awareness Prizma)")
     parser.add_argument("--sin-imagen", action="store_true", help="Publicar sin generar imagen (solo texto)")
     parser.add_argument("--modelo-imagen", type=str, default="gemini-2.5-flash-image",
                         help="Modelo: gemini-2.5-flash-image o gemini-3-pro-image-preview")

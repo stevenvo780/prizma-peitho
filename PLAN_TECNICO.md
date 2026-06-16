@@ -1,7 +1,7 @@
-# Sistema de Automatización Publicitaria - Humanizar Ads Automator
+# Sistema de Automatización Publicitaria - Prizma Ads Automator (ex Steven Vallejo)
 
 ## 1. Descripción del Sistema
-Este sistema automatizará el ciclo completo de publicidad digital para Humanizar S.A.S., desde la creación creativa hasta la compra de medios.
+Este sistema automatizará el ciclo completo de publicidad digital para Prizma S.A.S., desde la creación creativa hasta la compra de medios.
 
 ## 2. Arquitectura de Módulos
 

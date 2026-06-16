@@ -484,7 +484,7 @@ def _generar_mensaje_fb(producto_key: str, tematica: str = "") -> str:
     nombre = prod.get("nombre", "")
     desc = prod.get("descripcion", "")
     slogan = prod.get("slogan", "")
-    url = prod.get("url", "https://www.humanizar.co")
+    url = prod.get("url", "https://prisma-enterprice.cloud")
     precio = prod.get("precio_desde", "")
 
     url_utm = build_utm_url(
@@ -495,7 +495,7 @@ def _generar_mensaje_fb(producto_key: str, tematica: str = "") -> str:
 
     tema = f"\n🎯 {tematica}\n" if tematica else ""
 
-    if producto_key == "humanizar":
+    if producto_key == "prizma":
         return (
             f"🚀 {slogan}{tema}\n{desc}.\n\n"
             f"Más de 60 pymes colombianas ya simplificaron su operación 💼\n\n"
@@ -626,7 +626,7 @@ def run_auto(
 
     print()
     print(_c("╔══════════════════════════════════════════════════════════════════╗", "m"))
-    print(_c("║      HUMANIZAR SYSTEMS — FULL PASS AUTÓNOMO v1.0               ║", "m"))
+    print(_c("║      PRIZMA — FULL PASS AUTÓNOMO v1.0                          ║", "m"))
     print(_c("║      Generar → Evaluar (×3) → Publicar — sin intervención      ║", "m"))
     print(_c("╚══════════════════════════════════════════════════════════════════╝", "m"))
     print()

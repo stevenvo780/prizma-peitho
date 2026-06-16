@@ -128,7 +128,7 @@ def run_simulation():
     print("🛑 [DRY RUN] Operacion detenida antes de la publicacion/inyeccion real.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Humanizar Ads Tester")
+    parser = argparse.ArgumentParser(description="Prizma Ads Tester")
     parser.add_argument("--test-brain", action="store_true", help="Probar generación de IA")
     parser.add_argument("--test-meta-auth", action="store_true", help="Probar conexión con Meta")
     parser.add_argument("--dry-run", action="store_true", help="Simular flujo completo sin gasto")

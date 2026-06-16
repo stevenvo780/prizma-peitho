@@ -24,7 +24,7 @@ class MarketingCerebro:
         except OSError:
             # Fallback minimo para no romper la generacion si el archivo no existe.
             return (
-                "Humanizar Systems es un ecosistema de software colombiano para pymes. "
+                "Prizma es un ecosistema de software colombiano para pymes. "
                 "No promocionar HubCentral. Usar lenguaje directo, practico y enfocado "
                 "en resultados medibles con CTA y URL especifica del producto."
             )
@@ -32,14 +32,14 @@ class MarketingCerebro:
     def generar_campana(self, objetivo, publico_objetivo):
         prompt = f"""
         Actúa como un Director de Marketing experto en Performance y Growth.
-        Tu objetivo es crear una campaña publicitaria para Humanizar Systems.
+        Tu objetivo es crear una campaña publicitaria para Prizma.
 
         FUENTE UNICA DE VERDAD (narrativa oficial):
         {self.narrativa}
 
         REGLAS OBLIGATORIAS:
         - Nunca promociones HubCentral.
-        - Nunca hables de Humanizar como si fuera un producto individual.
+        - Nunca hables de Prizma como si fuera un producto individual.
         - Evita buzzwords vacios.
         - Usa tono directo, practico y confiable.
         - Incluye CTA claro con URL especifica de producto.

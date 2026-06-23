@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512" role="img" aria-label="Peitho">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0b94a"/>
+      <stop offset="100%" stop-color="#d4622e"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="16" fill="#0c0e10"/>
+  <text
+    x="50" y="50"
+    dominant-baseline="central"
+    text-anchor="middle"
+    font-size="52"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-weight="700"
+    fill="url(#g)"
+  >◆</text>
+</svg>

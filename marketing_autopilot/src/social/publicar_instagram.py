@@ -36,9 +36,17 @@ load_dotenv()
 
 logger = get_logger("publicar_instagram")
 
-PAGE_TOKEN = META_PAGE_TOKEN or os.getenv("META_PAGE_TOKEN")
-IG_ACCOUNT_ID = META_INSTAGRAM_ID or os.getenv("META_INSTAGRAM_ID")
 HTTP_PORT = 8765
+
+
+def get_page_token() -> str:
+    """Obtiene PAGE_TOKEN leyendo env en cada llamada (permite refresh en runtime)."""
+    return META_PAGE_TOKEN or os.getenv("META_PAGE_TOKEN")
+
+
+def get_ig_account_id() -> str:
+    """Obtiene IG_ACCOUNT_ID leyendo env en cada llamada (permite refresh en runtime)."""
+    return META_INSTAGRAM_ID or os.getenv("META_INSTAGRAM_ID")
 
 
 def descubrir_imagen_feed(producto_key: str) -> str | None:
@@ -88,13 +96,16 @@ def get_ngrok_url():
 @retry(max_attempts=2, base_delay=5.0, exceptions=(requests.RequestException,), logger_name="publicar_instagram")
 def publicar_en_ig(caption: str, image_url: str) -> dict:
     """Publica una imagen en Instagram via Content Publishing API."""
+    page_token = get_page_token()
+    ig_account_id = get_ig_account_id()
+
     # Paso 1: Crear container
     r1 = requests.post(
-        f"{GRAPH_API_BASE}/{IG_ACCOUNT_ID}/media",
+        f"{GRAPH_API_BASE}/{ig_account_id}/media",
         data={
             "image_url": image_url,
             "caption": caption,
-            "access_token": PAGE_TOKEN,
+            "access_token": page_token,
         }
     )
     result1 = r1.json()
@@ -108,7 +119,7 @@ def publicar_en_ig(caption: str, image_url: str) -> dict:
     for attempt in range(MAX_IG_CONTAINER_RETRIES):
         sr = requests.get(
             f"{GRAPH_API_BASE}/{container_id}",
-            params={"fields": "status_code", "access_token": PAGE_TOKEN}
+            params={"fields": "status_code", "access_token": page_token}
         )
         status = sr.json().get("status_code", "")
         if status == "FINISHED":
@@ -120,10 +131,10 @@ def publicar_en_ig(caption: str, image_url: str) -> dict:
 
     # Paso 3: Publicar
     r2 = requests.post(
-        f"{GRAPH_API_BASE}/{IG_ACCOUNT_ID}/media_publish",
+        f"{GRAPH_API_BASE}/{ig_account_id}/media_publish",
         data={
             "creation_id": container_id,
-            "access_token": PAGE_TOKEN,
+            "access_token": page_token,
         }
     )
     result2 = r2.json()
@@ -139,7 +150,9 @@ def main():
     logger.info("=" * 60)
 
     # Verificar credenciales
-    if not PAGE_TOKEN or not IG_ACCOUNT_ID:
+    page_token = get_page_token()
+    ig_account_id = get_ig_account_id()
+    if not page_token or not ig_account_id:
         logger.error("Faltan credenciales en .env (META_PAGE_TOKEN, META_INSTAGRAM_ID)")
         sys.exit(1)
 

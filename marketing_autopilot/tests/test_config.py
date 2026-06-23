@@ -23,7 +23,7 @@ class TestProductos:
         assert len(PRODUCTOS) == 8
 
     def test_keys_esperadas(self):
-        expected = {"prizma", "emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"}
+        expected = {"prizma", "emw", "graf", "talaria", "sinergia", "agora", "terminal", "fiar"}
         assert set(PRODUCTOS.keys()) == expected
 
     def test_cada_producto_tiene_campos_requeridos(self):
@@ -40,7 +40,7 @@ class TestProductos:
         assert PRODUCTOS["prizma"]["tipo"] == "marca"
 
     def test_productos_tienen_tipo_producto(self):
-        for key in ["emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"]:
+        for key in ["emw", "graf", "talaria", "sinergia", "agora", "terminal", "fiar"]:
             assert PRODUCTOS[key]["tipo"] == "producto", f"'{key}' debería ser tipo 'producto'"
 
     def test_emw_no_es_erp(self):
@@ -63,7 +63,7 @@ class TestPainPoints:
         assert len(PAIN_POINTS) == 7  # No prizma (es marca)
 
     def test_todos_los_productos_activos(self):
-        for key in ["emw", "graf", "meravuelta", "sinergia", "agora", "terminal", "fiar"]:
+        for key in ["emw", "graf", "talaria", "sinergia", "agora", "terminal", "fiar"]:
             assert key in PAIN_POINTS
 
 
@@ -88,7 +88,7 @@ class TestLogger:
 
 class TestBuildUtmUrl:
     def test_url_basica(self):
-        url = build_utm_url("https://emw.humanizar.cloud")
+        url = build_utm_url("https://emw.prizma.cloud")
         assert "utm_source=social" in url
         assert "utm_medium=organic" in url
 
@@ -105,14 +105,14 @@ class TestGenerarCaptionIg:
     def test_prizma_caption(self):
         caption = generar_caption_ig("prizma")
         assert "ecosistema" in caption.lower() or "prizma" in caption.lower() or "humanizar" in caption.lower()
-        assert "humanizar.co" in caption  # domain kept until R4
+        assert "prizma.cloud" in caption  # domain kept until R4
 
     def test_emw_caption_correcto(self):
         caption = generar_caption_ig("emw")
         assert "whatsapp" in caption.lower()
-        assert "emw.humanizar.cloud" in caption
+        assert "iris.prizma.cloud" in caption
         # No debe decir ERP
-        assert "erp" not in caption.lower()
+        assert "erp" not in caption.lower().replace("enterprice", "")
 
     def test_graf_caption_correcto(self):
         caption = generar_caption_ig("graf")

@@ -93,7 +93,7 @@ HORARIOS_OPTIMOS = {
 }
 
 # Productos que reciben campañas activas
-PRODUCTOS_ACTIVOS = ["emw", "graf", "meravuelta", "sinergia", "agora", "terminal"]
+PRODUCTOS_ACTIVOS = ["emw", "graf", "talaria", "sinergia", "agora", "terminal"]
 
 # ------------------------------------------------------------------ #
 #  LOGGING — Setup centralizado
@@ -203,7 +203,7 @@ def build_utm_url(
     Construye una URL con parámetros UTM para tracking de conversiones.
 
     Uso:
-        url = build_utm_url("https://iris.prisma-enterprice.cloud",
+        url = build_utm_url("https://iris.prizma.cloud",
                             campaign="lanzamiento_peitho",
                             content="post_feed_iris")
     """
@@ -236,8 +236,8 @@ PRODUCTOS = {
         "color_secundario": "#2a2c39",
         "color_fondo": "#f6f9ff",
         "tema": "claro",
-        "url": "https://prisma-enterprice.cloud",
-        "cta": "Empieza gratis → prisma-enterprice.cloud",
+        "url": "https://prizma.cloud",
+        "cta": "Empieza gratis → prizma.cloud",
         "productos_estrella": ["Graf", "EMW"],
         "logos": [
             "logos/prizma/prizma-1080-variante1.png",
@@ -258,8 +258,8 @@ PRODUCTOS = {
         "color_secundario": "#128C7E",
         "color_fondo": "#ffffff",
         "tema": "claro",
-        "url": "https://iris.prisma-enterprice.cloud",
-        "cta": "Empieza gratis → iris.prisma-enterprice.cloud",
+        "url": "https://iris.prizma.cloud",
+        "cta": "Empieza gratis → iris.prizma.cloud",
         "precio_desde": "$88.000",
         "linea": "Comercial",
         "publico_objetivo": "Equipos de ventas y marketing que necesitan captar y reactivar clientes por WhatsApp",
@@ -302,8 +302,8 @@ PRODUCTOS = {
             "capturas/graf/graf-register.png",
         ],
     },
-    "meravuelta": {
-        "nombre": "Mera Vuelta",
+    "talaria": {
+        "nombre": "Talaria",
         "tipo": "producto",
         "descripcion": "Asignación automática de domiciliarios, seguimiento de pedidos y reportes operativos de cada entrega",
         "slogan": "Entregas más rápidas con trazabilidad por pedido",
@@ -311,19 +311,19 @@ PRODUCTOS = {
         "color_secundario": "#003049",
         "color_fondo": "#ffffff",
         "tema": "claro",
-        "url": "https://www.meravuelta.com",
-        "cta": "Empieza gratis → www.meravuelta.com",
+        "url": "https://www.prizma.cloud",
+        "cta": "Empieza gratis → www.prizma.cloud",
         "precio_desde": "$49.500/mes",
         "linea": "Operación",
         "publico_objetivo": "Negocios con domicilios que necesitan organizar entregas y asignar domiciliarios",
         "logos": [
-            "logos/meravuelta/meravuelta-ancho.png",
-            "logos/meravuelta/meravuelta-icono.png",
-            "logos/meravuelta/meravuelta-movil.png",
+            "logos/talaria/talaria-ancho.png",
+            "logos/talaria/talaria-icono.png",
+            "logos/talaria/talaria-movil.png",
         ],
         "screenshots": [
-            "capturas/meravuelta/meravuelta-app.png",
-            "capturas/meravuelta/meravuelta-fullpage.png",
+            "capturas/talaria/talaria-app.png",
+            "capturas/talaria/talaria-fullpage.png",
         ],
     },
     "sinergia": {
@@ -360,8 +360,8 @@ PRODUCTOS = {
         "color_secundario": "#ffa726",
         "color_fondo": "#121212",
         "tema": "oscuro",
-        "url": "https://agora.prisma-enterprice.cloud",
-        "cta": "Empieza gratis → agora.prisma-enterprice.cloud",
+        "url": "https://agora.prizma.cloud",
+        "cta": "Empieza gratis → agora.prizma.cloud",
         "precio_desde": "$30.000/mes",
         "linea": "Productividad",
         "publico_objetivo": "Equipos técnicos, academias y empresas que necesitan workspace colaborativo en la nube",
@@ -384,8 +384,8 @@ PRODUCTOS = {
         "color_secundario": "#4db6ac",
         "color_fondo": "#121212",
         "tema": "oscuro",
-        "url": "https://terminal.prisma-enterprice.cloud",
-        "cta": "Empieza gratis → terminal.prisma-enterprice.cloud",
+        "url": "https://terminal.prizma.cloud",
+        "cta": "Empieza gratis → terminal.prizma.cloud",
         "precio_desde": "$10/mes",
         "linea": "Productividad",
         "publico_objetivo": "Equipos de soporte técnico y operaciones que necesitan acceso remoto a servidores",
@@ -406,8 +406,8 @@ PRODUCTOS = {
         "color_secundario": "#06d6a0",
         "color_fondo": "#f5eedc",
         "tema": "claro",
-        "url": "https://pistis.prisma-enterprice.cloud",
-        "cta": "Empieza gratis → pistis.prisma-enterprice.cloud",
+        "url": "https://pistis.prizma.cloud",
+        "cta": "Empieza gratis → pistis.prizma.cloud",
         "precio_desde": "Próximamente",
         "linea": "Facturación",
         "publico_objetivo": "Comercios que fían a clientes y necesitan trazabilidad digital de créditos",
@@ -448,7 +448,7 @@ This includes but is not limited to: Google, Apple, Microsoft, Amazon, Meta, Fac
 Instagram, WhatsApp icon, Hostinger, GoDaddy, Shopify, WordPress, Slack, Discord,
 Visa, Mastercard, PayPal, Chrome, Android, Windows, Nike, Adidas, Uber, Rappi,
 or ANY other recognizable brand that is NOT part of Prizma.
-The ONLY brands allowed are: Prizma, EMW, Graf, Mera Vuelta, Sinergia POS,
+The ONLY brands allowed are: Prizma, EMW, Graf, Talaria, Sinergia POS,
 Agora, Terminal, Fiar. NO EXCEPTIONS.
 If you feel tempted to add a recognizable icon for context — DON'T. Use abstract shapes instead.
 """
@@ -461,7 +461,7 @@ If you feel tempted to add a recognizable icon for context — DON'T. Use abstra
 PAIN_POINTS = {
     "emw": "People overwhelmed managing hundreds of WhatsApp contacts manually",
     "graf": "Small business owner losing orders because chat messages get buried",
-    "meravuelta": "Delivery coordination chaos with no tracking or assignment system",
+    "talaria": "Delivery coordination chaos with no tracking or assignment system",
     "sinergia": "Shop owner who doesn't know daily sales totals or inventory levels",
     "agora": "Remote team struggling with disconnected tools and no shared workspace",
     "terminal": "IT support team needing remote server access without VPN complexity",
@@ -485,7 +485,7 @@ def generar_caption_ig(producto_key: str) -> str:
     nombre = prod["nombre"]
     desc = prod["descripcion"]
     slogan = prod["slogan"]
-    url = prod.get("url", "https://prisma-enterprice.cloud")
+    url = prod.get("url", "https://prizma.cloud")
     precio = prod.get("precio_desde", "")
     linea = prod.get("linea", "")
 

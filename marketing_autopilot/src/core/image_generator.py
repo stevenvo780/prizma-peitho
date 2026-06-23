@@ -254,7 +254,7 @@ class ImageGenerator:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod["logos"]
-        cta = prod.get("cta", "prisma-enterprice.cloud")
+        cta = prod.get("cta", "prizma.cloud")
         linea = prod.get("linea", "")
         pain = ""
         # Extraer pain point del tipo de producto
@@ -301,14 +301,20 @@ class ImageGenerator:
         print(f"\n🎨 Generando paquete de marca para {nombre}")
         print(f"   {desc}")
         print(f"   Logos: {len(logos)} configurados | Screenshots: {len(screenshots)} | Tema: {tema} | Línea: {linea}")
+        missing_logos = []
+        missing_screenshots = []
         for l in logos:
             full = os.path.join(BRAND_ASSETS_DIR, l)
             exists = "✅" if os.path.exists(full) else "❌"
             print(f"   {exists} {l}")
+            if not os.path.exists(full):
+                missing_logos.append(l)
         for s in screenshots:
             full = os.path.join(BRAND_ASSETS_DIR, s)
             exists = "✅" if os.path.exists(full) else "❌"
             print(f"   {exists} 📸 {s}")
+            if not os.path.exists(full):
+                missing_screenshots.append(s)
         print("=" * 60)
 
         generated = []
@@ -414,6 +420,15 @@ class ImageGenerator:
         )
         if path:
             generated.append(path)
+
+        if missing_logos or missing_screenshots:
+            print("\n⚠️  FALTAS DE ASSETS DETECTADAS:")
+            if missing_logos:
+                print(f"   ❌ {len(missing_logos)} logos faltantes para {nombre}: {', '.join(missing_logos)}")
+                logger.warning(f"Paquete {nombre}: {len(missing_logos)} logos faltantes — imágenes generadas sin referencia de marca")
+            if missing_screenshots:
+                print(f"   ❌ {len(missing_screenshots)} screenshots faltantes para {nombre}")
+                logger.warning(f"Paquete {nombre}: {len(missing_screenshots)} screenshots faltantes")
 
         print(f"\n✅ Paquete '{nombre}' completado: {len(generated)}/4 imágenes generadas")
         return generated
@@ -549,7 +564,7 @@ class ImageGenerator:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod["logos"]
-        cta = prod.get("cta", "prisma-enterprice.cloud")
+        cta = prod.get("cta", "prizma.cloud")
         linea = prod.get("linea", "")
         screenshots = prod.get("screenshots", [])
 
@@ -653,7 +668,7 @@ class ImageGenerator:
             tip_map = {
                 "emw": "¿Sabías que puedes segmentar envíos por etiquetas de cliente?",
                 "graf": "Tip: Activa notificaciones de pedido para no perder ninguna venta",
-                "meravuelta": "Tip: Asigna domiciliarios por zona para entregas más rápidas",
+                "talaria": "Tip: Asigna domiciliarios por zona para entregas más rápidas",
                 "sinergia": "Tip: Usa el cierre de caja diario para detectar descuadres al instante",
                 "agora": "Tip: Crea espacios separados por proyecto para mantener el orden",
                 "terminal": "Tip: Agrupa tus servidores por ambiente (dev/staging/prod)",
@@ -676,7 +691,7 @@ class ImageGenerator:
             stat_map = {
                 "emw": "87% de tasa de apertura en WhatsApp vs 20% en email",
                 "graf": "+3x pedidos cuando usas catálogo digital vs solo chat",
-                "meravuelta": "40% menos tiempo de entrega con asignación automática",
+                "talaria": "40% menos tiempo de entrega con asignación automática",
                 "sinergia": "0 descuadres de caja con cierre digital diario",
                 "agora": "5x más productivo con workspace unificado en la nube",
                 "terminal": "90% menos tiempo resolviendo tickets con acceso remoto directo",
@@ -699,7 +714,7 @@ class ImageGenerator:
             feature_map = {
                 "emw": "Envíos masivos personalizados con variables por cliente",
                 "graf": "Catálogo digital + carrito + pago en un solo link de WhatsApp",
-                "meravuelta": "Seguimiento en tiempo real de cada entrega en el mapa",
+                "talaria": "Seguimiento en tiempo real de cada entrega en el mapa",
                 "sinergia": "Inventario actualizado automáticamente con cada venta",
                 "agora": "Editor de código + terminal + chat en un solo workspace",
                 "terminal": "Acceso SSH desde el navegador sin configurar VPN",
@@ -737,7 +752,7 @@ class ImageGenerator:
             testimonial_map = {
                 "emw": "Recuperamos el 35% de clientes inactivos en una semana con EMW",
                 "graf": "Pasamos de perder pedidos en el chat a tener todo organizado con Graf",
-                "meravuelta": "Nuestras entregas bajaron de 2 horas a 40 minutos con Mera Vuelta",
+                "talaria": "Nuestras entregas bajaron de 2 horas a 40 minutos con Talaria",
                 "sinergia": "Ya no tenemos descuadres de caja desde que usamos Sinergia POS",
                 "agora": "Todo el equipo trabaja en un solo lugar gracias a Agora",
                 "terminal": "Resolvemos tickets en minutos sin necesitar VPN con Terminal",

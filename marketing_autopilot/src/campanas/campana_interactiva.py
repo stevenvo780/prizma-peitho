@@ -723,7 +723,7 @@ def _generar_mensaje_fb(producto_key: str, tematica: str = "") -> str:
     nombre = prod.get("nombre", "")
     desc = prod.get("descripcion", "")
     slogan = prod.get("slogan", "")
-    url = prod.get("url", "https://prisma-enterprice.cloud")
+    url = prod.get("url", "https://prizma.cloud")
     cta = prod.get("cta", "")
 
     url_utm = build_utm_url(

@@ -29,6 +29,8 @@ _NARRATIVA_PATH = Path(__file__).resolve().parent.parent.parent.parent / "Humani
 _NARRATIVA_COMPLETA = ""
 if _NARRATIVA_PATH.exists():
     _NARRATIVA_COMPLETA = _NARRATIVA_PATH.read_text(encoding="utf-8")
+else:
+    logger.warning(f"NARRATIVA_MARCA.md no encontrada en {_NARRATIVA_PATH}. Usando fallback condensado.")
 
 # Contexto condensado (siempre disponible como fallback)
 BRAND_CONTEXT = """
@@ -42,7 +44,7 @@ y automatización en una sola suite empresarial para pymes en crecimiento.
 - País foco: Colombia. ICP: Retail/tiendas, food/dark kitchens, servicios/educación.
 
 PRODUCTOS (cada uno con su URL y pricing):
-⭐ EMW — Marketing masivo por WhatsApp ($88.000) → iris.prisma-enterprice.cloud
+⭐ EMW — Marketing masivo por WhatsApp ($88.000) → iris.prizma.cloud
    Pain: "Tengo miles de contactos pero no sé cómo activarlos sin parecer spam"
    Ángulo: Recupera ventas dormidas con campañas segmentadas.
 
@@ -50,7 +52,7 @@ PRODUCTOS (cada uno con su URL y pricing):
    Pain: "Recibo pedidos por chat pero se pierden, no tengo orden"
    Ángulo: Más pedidos cerrados con catálogo digital en WhatsApp.
 
-🚚 Mera Vuelta — Logística de entregas ($49.500/mes) → www.meravuelta.com
+🚚 Talaria — Logística de entregas ($49.500/mes) → www.prizma.cloud
    Pain: "No sé dónde están mis domiciliarios ni cuánto tarda cada entrega"
    Ángulo: Entregas rápidas con trazabilidad y asignación automática.
 
@@ -58,21 +60,21 @@ PRODUCTOS (cada uno con su URL y pricing):
    Pain: "No sé cuánto vendí hoy ni qué tengo en inventario"
    Ángulo: Control de caja e inventario en tiempo real.
 
-🏛️ Agora — Workspace colaborativo ($30.000/mes) → agora.prisma-enterprice.cloud
+🏛️ Agora — Workspace colaborativo ($30.000/mes) → agora.prizma.cloud
    Pain: "Mi equipo trabaja en 5 herramientas y nada está conectado"
    Ángulo: Editor, terminal y workspace en un solo lugar.
 
-🖥️ Terminal — Soporte técnico remoto ($10/mes) → terminal.prisma-enterprice.cloud
+🖥️ Terminal — Soporte técnico remoto ($10/mes) → terminal.prizma.cloud
    Pain: "Acceder a servidores remotos es un dolor"
    Ángulo: Soporte ágil desde el navegador.
 
-💰 Fiar — Control de créditos (Próximamente) → pistis.prisma-enterprice.cloud
+💰 Fiar — Control de créditos (Próximamente) → pistis.prizma.cloud
    Pain: "Fío a clientes pero no tengo trazabilidad de quién debe cuánto"
    Ángulo: Control digital de cartera.
 
 BUNDLES:
 - Growth Comercial: EMW + Graf → "Captura leads + ciérralos con catálogo"
-- Operación Unificada: Graf + Sinergia POS + Mera Vuelta → "Venta + caja + entrega"
+- Operación Unificada: Graf + Sinergia POS + Talaria → "Venta + caja + entrega"
 - Escalamiento Digital: Agora + Terminal + Conectores → "Workspace + terminal + automatización"
 
 VOZ Y TONO:
@@ -97,7 +99,7 @@ ESTRUCTURA DE POST IDEAL:
 [3-5 hashtags relevantes]
 
 REGLAS ABSOLUTAS:
-✅ Usar URL del producto específico, NUNCA prisma-enterprice.cloud genérico (salvo awareness).
+✅ Usar URL del producto específico, NUNCA prizma.cloud genérico (salvo awareness).
 ✅ Incluir CTA claro con precio o beneficio.
 ✅ Mencionar Colombia o contexto pyme.
 ❌ NUNCA decir "Prizma" como si fuera un producto.
@@ -156,7 +158,20 @@ Responde SOLO el JSON, sin markdown ni explicaciones.
             }
         )
         logger.info("Campaña generada — objetivo: %s", objetivo[:60])
-        return response.text
+
+        # Parse respuesta (strip markdown fences si existen)
+        result_text = response.text.strip()
+        if result_text.startswith("```"):
+            result_text = result_text.split("```")[1]
+            if result_text.startswith("json"):
+                result_text = result_text[4:]
+            result_text = result_text.strip()
+
+        try:
+            return json.loads(result_text)
+        except json.JSONDecodeError as e:
+            logger.error("Error parseando respuesta de Gemini: %s. Raw: %s", str(e), result_text[:200])
+            return {"error": f"Respuesta no es JSON válido: {str(e)}"}
 
     def generar_calendario_semanal(self, productos_foco: list[str] = None):
         """
@@ -164,7 +179,7 @@ Responde SOLO el JSON, sin markdown ni explicaciones.
         Retorna lista de 7 objetos con tipo, producto, objetivo y público.
         """
         if not productos_foco:
-            productos_foco = ["emw", "graf", "meravuelta", "sinergia"]
+            productos_foco = ["emw", "graf", "talaria", "sinergia"]
 
         prompt = f"""
 {self.brand_context}
@@ -186,7 +201,7 @@ Para cada día genera:
 {{
     "dia": "lunes",
     "tipo_contenido": "pain_point|tip_educativo|testimonio|bundle|producto_secundario|behind_scenes|awareness",
-    "producto": "key del producto (emw, graf, meravuelta, sinergia, agora, terminal, fiar, prizma=Prizma)",
+    "producto": "key del producto (emw, graf, talaria, sinergia, agora, terminal, fiar, prizma=Prizma)",
     "objetivo": "Descripción del objetivo del post",
     "publico": "Público objetivo específico",
     "gancho": "Primera línea del post (gancho emocional)"

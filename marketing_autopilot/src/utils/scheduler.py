@@ -190,15 +190,16 @@ class PublicationScheduler:
             objetivo_enriquecido = (
                 f"{objetivo}. "
                 f"Producto: {prod_info['nombre']} — {prod_info['descripcion']}. "
-                f"URL: {prod_info.get('url', 'prisma-enterprice.cloud')}. "
-                f"CTA: {prod_info.get('cta', 'prisma-enterprice.cloud')}."
+                f"URL: {prod_info.get('url', 'prizma.cloud')}. "
+                f"CTA: {prod_info.get('cta', 'prizma.cloud')}."
             )
             if prod_info.get("precio_desde"):
                 objetivo_enriquecido += f" Precio desde: {prod_info['precio_desde']}."
 
             try:
-                estrategia_json = self.cerebro.generar_campana(objetivo_enriquecido, publico)
-                estrategia = json.loads(estrategia_json)
+                estrategia = self.cerebro.generar_campana(objetivo_enriquecido, publico)
+                if isinstance(estrategia, str):
+                    estrategia = json.loads(estrategia)
                 if isinstance(estrategia, list):
                     estrategia = estrategia[0]
             except Exception as e:
@@ -238,7 +239,7 @@ class PublicationScheduler:
 
             # 5. Construir mensaje final
             hashtags = " ".join(estrategia.get("HASHTAGS", []))
-            url_producto = prod_info.get("url", "https://prisma-enterprice.cloud")
+            url_producto = prod_info.get("url", "https://prizma.cloud")
             copy_ig = estrategia.get("COPIES", {}).get("Instagram", "")
 
             mensaje_fb = f"{copy_fb}\n\n{hashtags}\n\n🔗 {url_producto}"

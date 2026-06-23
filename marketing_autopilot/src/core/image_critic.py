@@ -18,6 +18,7 @@ Uso:
 """
 
 import os
+import re
 import json
 import shutil
 from datetime import datetime
@@ -49,9 +50,13 @@ client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 #  RÚBRICA DE EVALUACIÓN
 # ------------------------------------------------------------------ #
 RUBRICA = """
-Eres un director de arte senior especializado en branding digital para startups de tecnología.
+Eres un director de arte senior especializado en branding digital para startups de tecnología
+Y un inspector de marcas comerciales especializado en detectar logos y brandings de terceros.
+
 Tu trabajo es evaluar imágenes de marketing para redes sociales (Facebook/Instagram).
-Debes ser MUY ESTRICTO con la calidad del texto renderizado — es el defecto más común en IA generativa.
+Debes ser MUY ESTRICTO con:
+  1. La calidad del texto renderizado — es el defecto más común en IA generativa.
+  2. La presencia de CUALQUIER logo, favicon, icono o marca de terceros.
 
 EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total máximo = 100):
 
@@ -77,7 +82,7 @@ EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total m�
       → Texto que no corresponde al producto o marca = máximo 5 puntos.
    g) IDIOMA: ¿El texto está en el idioma correcto (español o inglés según contexto)?
       → Mezcla de idiomas sin sentido = máximo 8 puntos.
-   
+
    ⛔ Si hay texto duplicado, caracteres rotos, o palabras inventadas: PUNTAJE MÁXIMO 5/20.
    0 = texto ilegible/duplicado/corrupto. 20 = texto perfecto, sin duplicados, bien integrado.
 
@@ -102,10 +107,11 @@ EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total m�
    - ¿Genera curiosidad o engagement?
    - 0 = ignorable/amateur. 20 = scroll-stopper profesional.
 
-⚠️ **MARCAS DE TERCEROS — VIOLACIÓN DE MARCA** (verificación obligatoria):
+⚠️ **VALIDACIÓN DE MARCAS DE TERCEROS — PARTE INTEGRAL DE ESTA EVALUACIÓN**:
    Examina TODA la imagen con máximo detalle buscando logos, iconos, o nombres de marcas externas.
    Los modelos de IA generativa frecuentemente insertan logos/iconos de marcas conocidas por error.
-   
+   Esta validación se hace EN UNA SOLA PASADA (no separada).
+
    🔎 **ZONA DE ALTO RIESGO — PANTALLAS Y MOCKUPS**:
    Si la imagen contiene laptops, monitores, teléfonos, tablets u CUALQUIER pantalla:
    → EXAMINA CADA PÍXEL de la pantalla renderizada.
@@ -114,7 +120,7 @@ EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total m�
    → Los favicons son MUY PEQUEÑOS (16x16 px) pero CUENTAN como violación.
    → Busca formas/colores reconocibles aunque estén borrosos o parcialmente visibles.
    → Un dashboard o interfaz genérica con CUALQUIER branding real = RECHAZO.
-   
+
    📋 **FIRMAS VISUALES DE MARCAS COMUNES** (busca estas formas/colores):
    - Hostinger: cuadrado azul/púrpura con "H" blanca, favicon morado con "H"
    - Google: "G" multicolor (rojo/amarillo/verde/azul), Chrome = círculo tricolor
@@ -142,7 +148,7 @@ EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total m�
    - Firefox: zorro naranja envolviendo globo
    - Figma: cuadrados multicolor
    - Canva: gradiente con "C"
-   
+
    📋 **LISTA COMPLETA DE MARCAS PROHIBIDAS** (busca nombres Y logos):
    Google, Apple, Microsoft, Amazon, Meta, Facebook, Instagram, WhatsApp,
    Hostinger, GoDaddy, Cloudflare, DigitalOcean, AWS, Azure, Vercel, Netlify,
@@ -151,10 +157,10 @@ EVALÚA la imagen según estos 5 criterios. Puntúa cada uno de 0 a 20 (total m�
    Samsung, Xiaomi, Huawei, Android, iOS, Chrome, Firefox, Safari,
    Visa, Mastercard, PayPal, Stripe, Nequi, Daviplata, PSE,
    Coca-Cola, Nike, Adidas, o CUALQUIER otra marca reconocible que NO sea Prizma ni sus productos.
-   
+
    Incluye también: favicons (aunque sean DIMINUTOS), app icons, brand shapes reconocibles,
    colores corporativos en contexto de marca, barras de navegador con logos reales.
-   
+
    ⛔ Si detectas CUALQUIER marca, logo, favicon o icono de terceros → RECHAZO INMEDIATO.
    ⛔ Ante la DUDA de si algo es un logo de tercero → REPORTA como detectado.
    Reporta CADA marca detectada en el campo "marcas_terceros".
@@ -177,6 +183,8 @@ RESPONDE EXCLUSIVAMENTE en JSON válido, sin bloques markdown, con esta estructu
   "defectos_criticos": ["lista de defectos graves encontrados, vacía si no hay"],
   "textos_encontrados": ["lista literal de CADA texto/palabra visible en la imagen"],
   "marcas_terceros": ["lista de marcas/logos/iconos de terceros detectados, vacía si no hay"],
+  "tiene_pantalla": true|false,
+  "zonas_sospechosas": ["descripción de zonas donde viste algo sospechoso, vacía si no hay"],
   "resumen": "Una oración con el veredicto general",
   "feedback_regeneracion": "Instrucciones específicas para mejorar la imagen si se regenera (vacío si aprobada)"
 }
@@ -295,6 +303,13 @@ class ImageCritic:
         resultado["producto"] = producto_key
         resultado["formato"] = formato
 
+        # Asegurar que campos de validación de marcas estén presentes
+        # (el modelo debe incluirlos, pero ser defensivo ante respuestas parciales)
+        if "tiene_pantalla" not in resultado:
+            resultado["tiene_pantalla"] = False
+        if "zonas_sospechosas" not in resultado:
+            resultado["zonas_sospechosas"] = []
+
         # --- AUTO-RECHAZO por defectos críticos de texto ---
         defectos = resultado.get("defectos_criticos", [])
         texto_puntaje = resultado.get("texto", {}).get("puntaje", 20)
@@ -351,13 +366,16 @@ class ImageCritic:
         }
         if textos:
             for t in textos_lower:
-                # Buscar marcas en cada texto (puede ser substring)
+                # Buscar marcas en cada texto usando word boundaries (evita falsos positivos)
                 for marca in MARCAS_PROHIBIDAS:
-                    if marca in t and marca not in {"graf", "emw", "fiar", "agora", "terminal", "sinergia", "prizma", "meravuelta", "mera vuelta"}:
-                        auto_rechazada = True
-                        msg = f"⛔ Texto contiene marca prohibida: '{marca}' encontrada en '{t}'"
-                        if msg not in defectos:
-                            defectos.append(msg)
+                    if marca not in {"graf", "emw", "fiar", "agora", "terminal", "sinergia", "prizma", "talaria"}:
+                        # Usar word boundary regex para evitar substrings: 'hostinger' no rechaza 'hostile'
+                        pattern = r'\b' + re.escape(marca) + r'\b'
+                        if re.search(pattern, t):
+                            auto_rechazada = True
+                            msg = f"⛔ Texto contiene marca prohibida: '{marca}' encontrada en '{t}'"
+                            if msg not in defectos:
+                                defectos.append(msg)
 
         # --- Búsqueda de marcas en TODAS las observaciones del modelo ---
         campos_observacion = [
@@ -371,14 +389,17 @@ class ImageCritic:
         ]
         texto_completo = " ".join(campos_observacion).lower()
         for marca in MARCAS_PROHIBIDAS:
-            if marca in texto_completo and marca not in {
+            if marca not in {
                 "graf", "emw", "fiar", "agora", "terminal",
-                "sinergia", "prizma", "meravuelta", "mera vuelta",
+                "sinergia", "prizma", "talaria",
             }:
-                auto_rechazada = True
-                msg = f"⛔ Marca mencionada en observaciones: '{marca}'"
-                if msg not in defectos:
-                    defectos.append(msg)
+                # Usar word boundary regex para evitar falsos positivos
+                pattern = r'\b' + re.escape(marca) + r'\b'
+                if re.search(pattern, texto_completo):
+                    auto_rechazada = True
+                    msg = f"⛔ Marca mencionada en observaciones: '{marca}'"
+                    if msg not in defectos:
+                        defectos.append(msg)
 
         resultado["defectos_criticos"] = defectos
         resultado["auto_rechazada"] = auto_rechazada
@@ -390,129 +411,22 @@ class ImageCritic:
         else:
             resultado["veredicto"] = "APROBADA" if total >= self.umbral else "RECHAZADA"
 
-        # --- SEGUNDA PASADA: validación visual de marcas (solo si aprobada) ---
-        if resultado["veredicto"] == "APROBADA":
-            marcas_2da = self._validar_marcas_visual(ruta_imagen, producto_key)
-            if marcas_2da:
-                resultado["veredicto"] = "RECHAZADA"
-                resultado["auto_rechazada"] = True
-                resultado["marcas_segunda_pasada"] = marcas_2da
-                for m in marcas_2da:
-                    msg = f"⛔ [2da pasada] Marca visual detectada: '{m}'"
-                    if msg not in resultado["defectos_criticos"]:
-                        resultado["defectos_criticos"].append(msg)
-                if not resultado.get("feedback_regeneracion"):
-                    resultado["feedback_regeneracion"] = ""
-                resultado["feedback_regeneracion"] += (
-                    f" MARCAS DETECTADAS EN SEGUNDA REVISIÓN: {', '.join(marcas_2da)}. "
-                    f"Elimina COMPLETAMENTE cualquier logo, favicon o icono de terceros."
-                )
-                logger_critic.warning(
-                    "Segunda pasada rechazó %s: marcas=%s",
-                    os.path.basename(ruta_imagen), marcas_2da,
-                )
+        # --- VALIDACIÓN DE MARCAS INCLUIDA EN RÚBRICA ÚNICA ---
+        # La detección de marcas de terceros se realiza DENTRO del mismo prompt de evaluación.
+        # No hay llamada extra a Gemini. Esto reduce de 64 calls a 32 (8 productos × 4 formatos).
+        # Los campos "tiene_pantalla", "zonas_sospechosas" y "marcas_terceros" se rellenan
+        # en la respuesta del primer (y único) generate_content().
+        # Ver línea 52: rúbrica integrada combina evaluación + validación de marcas.
+
+        # Verificar si la respuesta indicó pantallas sospechosas sin marcas confirmadas
+        zonas = resultado.get("zonas_sospechosas", [])
+        if zonas and not marcas_terceros:
+            logger_critic.info(
+                "Zonas sospechosas detectadas en %s pero sin marcas confirmadas: %s",
+                os.path.basename(ruta_imagen), zonas,
+            )
 
         return resultado
-
-    # ------------------------------------------------------------------ #
-    #  SEGUNDA PASADA: VALIDACIÓN VISUAL DE MARCAS
-    # ------------------------------------------------------------------ #
-    _PROMPT_MARCAS = """
-Eres un inspector de marcas comerciales especializado en detectar logos y brandings de terceros.
-Tu ÚNICA tarea es examinar esta imagen y determinar si contiene CUALQUIER logo, favicon,
-icono o nombre de marca que NO pertenezca a la empresa "Prizma" o sus productos
-(prizma, emw, graf, meravuelta, sinergia, agora, terminal, fiar).
-
-INSTRUCCIONES CRÍTICAS:
-1. Si la imagen muestra una pantalla de laptop/monitor/teléfono/tablet:
-   - Examina la barra de navegador: ¿hay favicons? ¿logos en pestañas?
-   - Examina barras de herramientas, docks, taskbars
-   - Examina el contenido de la pantalla: ¿hay dashboards con branding ajeno?
-   - Examina esquinas, bordes, watermarks
-2. Busca estas formas/colores específicas:
-   - Cuadrado púrpura/azul con "H" = Hostinger
-   - Manzana mordida = Apple
-   - Ventana 4 colores = Microsoft/Windows
-   - "G" multicolor = Google
-   - Círculo tricolor con centro azul = Chrome
-   - Bolsa verde con "S" = Shopify
-   - Almohadilla multicolor = Slack
-   - Pájaro/ave = Twitter
-   - Burbuja verde con teléfono = WhatsApp
-   - Gato negro = GitHub
-   - Gradiente púrpura-naranja con cámara = Instagram
-   - Cualquier otro icono reconocible de empresa real
-3. Examina TEXTO visible: ¿dice algún nombre de marca conocida?
-4. Ante la DUDA → reporta como detectado. Falso positivo es preferible a dejar pasar una marca.
-
-RESPONDE EXCLUSIVAMENTE en JSON válido:
-{
-  "marcas_detectadas": ["lista de marcas/logos encontrados, vacía si no hay"],
-  "tiene_pantalla": true/false,
-  "zonas_sospechosas": ["descripción de zonas donde viste algo sospechoso"],
-  "veredicto": "LIMPIA" | "CONTAMINADA"
-}
-"""
-
-    def _validar_marcas_visual(self, ruta_imagen: str, producto_key: str) -> list[str]:
-        """
-        Segunda pasada de validación enfocada EXCLUSIVAMENTE en detección
-        de marcas/logos de terceros. Se ejecuta solo si la imagen pasó
-        la evaluación principal.
-
-        Returns:
-            Lista de marcas detectadas (vacía si limpia).
-        """
-        try:
-            img = Image.open(ruta_imagen)
-        except Exception:
-            return []
-
-        prompt = (
-            f"{self._PROMPT_MARCAS}\n\n"
-            f"PRODUCTO LEGÍTIMO: {PRODUCTOS.get(producto_key, {}).get('nombre', producto_key)}\n"
-            f"Todo logo/icono que NO sea de este producto es una VIOLACIÓN.\n"
-            f"Examina la imagen con máximo detalle."
-        )
-
-        try:
-            response = client.models.generate_content(
-                model=CRITIC_MODEL,
-                contents=[prompt, img],
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    temperature=0.1,  # Muy bajo para máxima precisión
-                ),
-            )
-            raw = response.text.strip()
-            if raw.startswith("```"):
-                raw = raw.split("\n", 1)[1]
-                if raw.endswith("```"):
-                    raw = raw[:-3]
-            resultado = json.loads(raw)
-
-            marcas = resultado.get("marcas_detectadas", [])
-            veredicto = resultado.get("veredicto", "LIMPIA")
-            zonas = resultado.get("zonas_sospechosas", [])
-
-            if veredicto == "CONTAMINADA" or marcas:
-                logger_critic.warning(
-                    "[2da pasada] %s → CONTAMINADA: marcas=%s, zonas=%s",
-                    os.path.basename(ruta_imagen), marcas, zonas,
-                )
-                return marcas if marcas else ["marca_no_identificada"]
-
-            if zonas:
-                logger_critic.info(
-                    "[2da pasada] %s → zonas sospechosas (sin marcas confirmadas): %s",
-                    os.path.basename(ruta_imagen), zonas,
-                )
-
-            return []
-
-        except Exception as e:
-            logger_critic.error("Error en segunda pasada de marcas: %s", e)
-            return []  # No bloquear por error en validación extra
 
     # ------------------------------------------------------------------ #
     #  EVALUAR PAQUETE (todas las imágenes de un producto)
@@ -557,8 +471,8 @@ RESPONDE EXCLUSIVAMENTE en JSON válido:
                         print(f"         • {d}")
                 if resultado.get("marcas_terceros"):
                     print(f"      🚫 Marcas de terceros: {resultado['marcas_terceros']}")
-                if resultado.get("marcas_segunda_pasada"):
-                    print(f"      🚫 [2da pasada] Marcas visuales: {resultado['marcas_segunda_pasada']}")
+                if resultado.get("zonas_sospechosas"):
+                    print(f"      🔍 Zonas sospechosas: {resultado['zonas_sospechosas']}")
                 if resultado.get("textos_encontrados"):
                     print(f"      📝 Textos: {resultado['textos_encontrados']}")
                 if resultado["veredicto"] == "RECHAZADA":
@@ -777,7 +691,7 @@ RESPONDE EXCLUSIVAMENTE en JSON válido:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod.get("logos", [])
-        cta = prod.get("cta", "prisma-enterprice.cloud")
+        cta = prod.get("cta", "prizma.cloud")
         linea = prod.get("linea", "")
 
         # Instrucción de tema
@@ -856,7 +770,7 @@ RESPONDE EXCLUSIVAMENTE en JSON válido:
             pain_map = {
                 "emw": "People overwhelmed managing hundreds of WhatsApp contacts manually",
                 "graf": "Small business owner losing orders because chat messages get buried",
-                "meravuelta": "Delivery coordination chaos with no tracking or assignment system",
+                "talaria": "Delivery coordination chaos with no tracking or assignment system",
                 "sinergia": "Shop owner who doesn't know daily sales totals or inventory levels",
                 "agora": "Remote team struggling with disconnected tools and no shared workspace",
                 "terminal": "IT support team needing remote server access without VPN complexity",

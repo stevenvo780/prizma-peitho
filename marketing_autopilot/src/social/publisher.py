@@ -57,9 +57,19 @@ class MetaAdsManager:
         Publica un post organico en la Fan Page de Facebook.
         Retorna el ID del post creado o un mensaje de error.
         """
+        from urllib.parse import urlparse
+
         page_token = self._get_page_token()
         if not page_token:
             return {"error": f"No se pudo obtener Page Token para {self.page_id}"}
+
+        if link:
+            try:
+                urlparse(link)
+                if not link.startswith(("http://", "https://")):
+                    return {"error": f"Link inválido: debe empezar con http:// o https://"}
+            except Exception as e:
+                return {"error": f"Link con formato inválido: {str(e)}"}
 
         payload = {
             "message": message,
@@ -67,6 +77,7 @@ class MetaAdsManager:
         }
         if link:
             payload["link"] = link
+            logger.debug(f"Publicando post con link: {link[:50]}...")
 
         r = requests.post(f"{GRAPH_API_BASE}/{self.page_id}/feed", data=payload)
         result = r.json()
@@ -159,6 +170,7 @@ class MetaAdsManager:
         container_id = container_result["id"]
 
         # Paso 2: Esperar a que el container esté listo y publicar
+        status = ""
         for attempt in range(MAX_IG_CONTAINER_RETRIES):
             status_r = requests.get(
                 f"{GRAPH_API_BASE}/{container_id}",
@@ -170,6 +182,9 @@ class MetaAdsManager:
             elif status == "ERROR":
                 return {"error": f"Container en estado ERROR: {status_r.json()}"}
             time.sleep(IG_CONTAINER_POLL_INTERVAL)
+
+        if status != "FINISHED":
+            return {"error": f"Container no terminó tras {MAX_IG_CONTAINER_RETRIES}x{IG_CONTAINER_POLL_INTERVAL}s. Estado final: {status}"}
 
         publish_payload = {
             "creation_id": container_id,
@@ -196,18 +211,24 @@ class MetaAdsManager:
         """
         Crea una campana de Ads e inyecta presupuesto real.
         Se crea PAUSADA por seguridad.
+        presupuesto_diario debe ser > 0 (en COP).
         """
         if not self.ad_account_id:
             return {"error": "Falta ID de cuenta publicitaria"}
-            
+
+        if not presupuesto_diario or presupuesto_diario <= 0:
+            return {"error": "Presupuesto debe ser mayor a 0"}
+
         account = AdAccount(self.ad_account_id)
+        # Meta API espera daily_budget en centavos (COP).
         params = {
             'name': nombre_campana,
             'objective': 'OUTCOME_SALES',
             'status': 'PAUSED',
             'special_ad_categories': [],
+            'daily_budget': int(presupuesto_diario * 100),  # Convertir COP a centavos
         }
-        
+
         try:
             campaign = account.create_campaign(params=params)
             return {
@@ -220,11 +241,15 @@ class MetaAdsManager:
 
     def leer_pagina_info(self):
         """Lee informacion basica de la pagina para verificacion."""
-        r = requests.get(f"{GRAPH_API_BASE}/{self.page_id}", params={
-            "fields": "name,category,fan_count,followers_count,published_posts.limit(3){message,created_time}",
-            "access_token": self.access_token
-        })
-        return r.json()
+        try:
+            r = requests.get(f"{GRAPH_API_BASE}/{self.page_id}", params={
+                "fields": "name,category,fan_count,followers_count,published_posts.limit(3){message,created_time}",
+                "access_token": self.access_token
+            })
+            r.raise_for_status()
+            return r.json()
+        except requests.RequestException as e:
+            return {"error": str(e), "status_code": getattr(e.response, "status_code", None) if hasattr(e, "response") else None}
 
 if __name__ == "__main__":
     manager = MetaAdsManager()

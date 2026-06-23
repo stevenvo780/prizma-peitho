@@ -63,14 +63,14 @@ En el paso 4 puedes abrir las imágenes, eliminar las malas, y regenerar las rec
 
 ```bash
 # Un producto (4 formatos: feed, story, banner, promo)
-python3 run.py generar --producto emw
+python3 run.py generar --producto iris
 
 # Todos los productos (8 × 4 = 32 imágenes)
 python3 run.py generar --todos
 
 # Campaña temática (agrupa imágenes bajo un nombre)
 python3 run.py generar --campana "Marzo 2026" \
-  --productos emw graf meravuelta \
+  --productos iris hermes talaria \
   --tematica "Descuentos de apertura" \
   --formatos feed_1x1 story_9x16
 
@@ -78,7 +78,7 @@ python3 run.py generar --campana "Marzo 2026" \
 python3 run.py generar --texto "Banner minimalista tech azul" --ratio 16:9
 
 # Modelo rápido (menor calidad, más barato)
-python3 run.py generar --producto graf --modelo gemini-2.5-flash-image
+python3 run.py generar --producto hermes --modelo gemini-2.5-flash-image
 
 # Ver campañas existentes
 python3 run.py generar --listar-campanas
@@ -118,7 +118,7 @@ python3 run.py evaluar --todos
 python3 run.py evaluar --todos --regenerar
 
 # Solo un producto
-python3 run.py evaluar --producto graf --regenerar
+python3 run.py evaluar --producto hermes --regenerar
 
 # Umbral personalizado y más intentos
 python3 run.py evaluar --todos --regenerar --umbral 80 --max-intentos 3
@@ -144,15 +144,15 @@ Reportes: `output/imagenes/reporte_calidad_<timestamp>.json`
 
 ```bash
 # Con copy IA + imagen generada
-python3 run.py publicar --producto emw \
+python3 run.py publicar --producto iris \
   --objetivo "Reactivar clientes dormidos" \
   --publico "Pymes colombianas con WhatsApp Business"
 
 # Sin imagen (solo texto)
-python3 run.py publicar --producto graf --sin-imagen
+python3 run.py publicar --producto hermes --sin-imagen
 
 # Con modelo de imagen rápido
-python3 run.py publicar --producto meravuelta \
+python3 run.py publicar --producto talaria \
   --modelo-imagen gemini-2.5-flash-image
 ```
 
@@ -281,14 +281,14 @@ META_PAGE_TOKEN=...               # (auto-generado, NO EXPIRA)
 
 | Producto | Key | URL | Precio | Línea |
 |----------|-----|-----|--------|-------|
-| EMW ⭐ | `emw` | emw.humanizar.cloud | $88.000 | Comercial |
-| Graf ⭐ | `graf` | graf.com.co | $30.000/mes | Comercial |
-| Mera Vuelta | `meravuelta` | meravuelta.com | $49.500/mes | Operación |
-| Sinergia POS | `sinergia` | sinergia-pos.com | $10/mes | Operación |
-| Agora | `agora` | agora.humanizar.cloud | $30.000/mes | Productividad |
-| Terminal | `terminal` | terminal.humanizar-dev.cloud | $10/mes | Productividad |
-| Fiar | `fiar` | fiar.humanizar.cloud | Próximamente | Facturación |
-| Prizma | `prizma` | humanizar.co | — | Ecosistema |
+| IRIS ⭐ | `iris` | iris.prizma.cloud | $88.000 | Comercial |
+| Hermes ⭐ | `hermes` | hermes.com.co | $30.000/mes | Comercial |
+| Talaria | `talaria` | talaria.com | $49.500/mes | Operación |
+| Talanton POS | `talanton` | talanton-pos.com | $10/mes | Operación |
+| Agora | `agora` | agora.prizma.cloud | $30.000/mes | Productividad |
+| Terminal | `terminal` | terminal.prizma-dev.cloud | $10/mes | Productividad |
+| Pistis | `pistis` | pistis.prizma.cloud | Próximamente | Facturación |
+| Prizma | `prizma` | prizma.co | — | Ecosistema |
 
 ---
 
@@ -322,10 +322,10 @@ python3 run.py campana
 
 # ── Comandos individuales ──
 python3 run.py generar --todos                          # 32 imágenes
-python3 run.py generar --producto emw                   # solo EMW
-python3 run.py generar --campana "Promo" --productos emw graf
+python3 run.py generar --producto iris                   # solo IRIS
+python3 run.py generar --campana "Promo" --productos iris hermes
 python3 run.py evaluar --todos --regenerar              # evaluar + regenerar
-python3 run.py publicar --producto graf --objetivo "Vender"
+python3 run.py publicar --producto hermes --objetivo "Vender"
 python3 run.py instagram                                # publicar todo en IG
 python3 run.py analytics --reporte                      # métricas
 python3 run.py token --refresh                          # renovar token
@@ -346,4 +346,4 @@ python3 run.py evaluar --help
 - 32 imágenes generadas (8 productos × 4 formatos)
 - 8 posts en Facebook + 8 en Instagram
 - Página FB: Prizma (`1045986888587355`)
-- Cuenta IG: @humanizar.systems (`17841446993293838`)
+- Cuenta IG: @prizma.systems (`17841446993293838`)

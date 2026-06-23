@@ -42,17 +42,16 @@ class CampaignRunner:
             publico: Público objetivo
             plataforma: Facebook o Instagram
             con_imagen: Si True, genera imagen con IA y la publica
-            producto: Key del producto (emw, graf, meravuelta, sinergia, agora, terminal, fiar, prizma=Prizma)
+            producto: Key del producto (emw, graf, talaria, sinergia, agora, terminal, fiar, prizma=Prizma)
         """
-        from image_generator import ImageGenerator
         prod_info = PRODUCTOS.get(producto, PRODUCTOS["prizma"])
         
         # Enriquecer el objetivo con contexto del producto
         objetivo_enriquecido = (
             f"{objetivo}. "
             f"Producto: {prod_info['nombre']} — {prod_info['descripcion']}. "
-            f"URL: {prod_info.get('url', 'prisma-enterprice.cloud')}. "
-            f"CTA: {prod_info.get('cta', 'prisma-enterprice.cloud')}."
+            f"URL: {prod_info.get('url', 'prizma.cloud')}. "
+            f"CTA: {prod_info.get('cta', 'prizma.cloud')}."
         )
         if prod_info.get('precio_desde'):
             objetivo_enriquecido += f" Precio desde: {prod_info['precio_desde']}."
@@ -63,8 +62,9 @@ class CampaignRunner:
         logger.info("URL: %s | CTA: %s", prod_info.get('url', 'N/A'), prod_info.get('cta', 'N/A'))
         logger.info("[Cerebro] Generando estrategia...")
         
-        estrategia_json = self.cerebro.generar_campana(objetivo_enriquecido, publico)
-        estrategia = json.loads(estrategia_json)
+        estrategia = self.cerebro.generar_campana(objetivo_enriquecido, publico)
+        if isinstance(estrategia, str):
+            estrategia = json.loads(estrategia)
         
         # Gemini a veces devuelve array
         if isinstance(estrategia, list):
@@ -77,8 +77,8 @@ class CampaignRunner:
         hashtags = " ".join(estrategia.get("HASHTAGS", []))
         
         # Usar URL y CTA del producto específico
-        url_producto = prod_info.get("url", "https://prisma-enterprice.cloud")
-        cta_producto = prod_info.get("cta", "prisma-enterprice.cloud")
+        url_producto = prod_info.get("url", "https://prizma.cloud")
+        cta_producto = prod_info.get("cta", "prizma.cloud")
         mensaje_final = f"{copy}\n\n{hashtags}\n\n🔗 {url_producto}"
         
         logger.info("Mensaje (%d chars): %s...", len(mensaje_final), mensaje_final[:120])
@@ -126,8 +126,9 @@ class CampaignRunner:
         objetivo = "Atraer duenos de e-commerce que venden por WhatsApp pero no tienen orden en sus pedidos."
         publico = "Duenos de negocios en Colombia, 25-45 anos, interesados en Shopify, emprendimiento y logistica."
         
-        estrategia_json = self.cerebro.generar_campana(objetivo, publico)
-        estrategia = json.loads(estrategia_json)
+        estrategia = self.cerebro.generar_campana(objetivo, publico)
+        if isinstance(estrategia, str):
+            estrategia = json.loads(estrategia)
         if isinstance(estrategia, list):
             estrategia = estrategia[0]
         
@@ -159,7 +160,7 @@ if __name__ == "__main__":
     parser.add_argument("--publicar-siguiente", action="store_true", help="Publicar siguiente post aprobado de la cola")
     parser.add_argument("--objetivo", type=str, default="Atraer emprendedores que necesitan automatizar ventas por WhatsApp", help="Objetivo de la campana")
     parser.add_argument("--publico", type=str, default="Duenos de negocios en Colombia, 25-45 anos, e-commerce", help="Publico objetivo")
-    parser.add_argument("--producto", type=str, default="graf", help="Producto: emw, graf, meravuelta, sinergia, agora, terminal, fiar, prizma (awareness Prizma)")
+    parser.add_argument("--producto", type=str, default="graf", help="Producto: emw, graf, talaria, sinergia, agora, terminal, fiar, prizma (awareness Prizma)")
     parser.add_argument("--sin-imagen", action="store_true", help="Publicar sin generar imagen (solo texto)")
     parser.add_argument("--modelo-imagen", type=str, default="gemini-2.5-flash-image",
                         help="Modelo: gemini-2.5-flash-image o gemini-3-pro-image-preview")

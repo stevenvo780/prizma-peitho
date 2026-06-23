@@ -254,7 +254,7 @@ class ImageGenerator:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod["logos"]
-        cta = prod.get("cta", "prizma.cloud")
+        cta = prod.get("cta", "prisma-enterprice.cloud")
         linea = prod.get("linea", "")
         pain = ""
         # Extraer pain point del tipo de producto
@@ -564,7 +564,7 @@ class ImageGenerator:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod["logos"]
-        cta = prod.get("cta", "prizma.cloud")
+        cta = prod.get("cta", "prisma-enterprice.cloud")
         linea = prod.get("linea", "")
         screenshots = prod.get("screenshots", [])
 

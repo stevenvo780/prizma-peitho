@@ -691,7 +691,7 @@ class ImageCritic:
         color_bg = prod.get("color_fondo", "#ffffff")
         tema = prod.get("tema", "claro")
         logos = prod.get("logos", [])
-        cta = prod.get("cta", "prizma.cloud")
+        cta = prod.get("cta", "prisma-enterprice.cloud")
         linea = prod.get("linea", "")
 
         # Instrucción de tema

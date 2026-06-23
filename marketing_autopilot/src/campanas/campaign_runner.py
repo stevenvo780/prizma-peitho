@@ -50,8 +50,8 @@ class CampaignRunner:
         objetivo_enriquecido = (
             f"{objetivo}. "
             f"Producto: {prod_info['nombre']} — {prod_info['descripcion']}. "
-            f"URL: {prod_info.get('url', 'prizma.cloud')}. "
-            f"CTA: {prod_info.get('cta', 'prizma.cloud')}."
+            f"URL: {prod_info.get('url', 'prisma-enterprice.cloud')}. "
+            f"CTA: {prod_info.get('cta', 'prisma-enterprice.cloud')}."
         )
         if prod_info.get('precio_desde'):
             objetivo_enriquecido += f" Precio desde: {prod_info['precio_desde']}."
@@ -77,8 +77,8 @@ class CampaignRunner:
         hashtags = " ".join(estrategia.get("HASHTAGS", []))
         
         # Usar URL y CTA del producto específico
-        url_producto = prod_info.get("url", "https://prizma.cloud")
-        cta_producto = prod_info.get("cta", "prizma.cloud")
+        url_producto = prod_info.get("url", "https://prisma-enterprice.cloud")
+        cta_producto = prod_info.get("cta", "prisma-enterprice.cloud")
         mensaje_final = f"{copy}\n\n{hashtags}\n\n🔗 {url_producto}"
         
         logger.info("Mensaje (%d chars): %s...", len(mensaje_final), mensaje_final[:120])

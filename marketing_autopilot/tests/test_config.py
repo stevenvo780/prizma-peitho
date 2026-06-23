@@ -88,7 +88,7 @@ class TestLogger:
 
 class TestBuildUtmUrl:
     def test_url_basica(self):
-        url = build_utm_url("https://emw.prizma.cloud")
+        url = build_utm_url("https://emw.prisma-enterprice.cloud")
         assert "utm_source=social" in url
         assert "utm_medium=organic" in url
 
@@ -105,12 +105,12 @@ class TestGenerarCaptionIg:
     def test_prizma_caption(self):
         caption = generar_caption_ig("prizma")
         assert "ecosistema" in caption.lower() or "prizma" in caption.lower() or "humanizar" in caption.lower()
-        assert "prizma.cloud" in caption  # domain kept until R4
+        assert "prisma-enterprice.cloud" in caption  # domain kept until R4
 
     def test_emw_caption_correcto(self):
         caption = generar_caption_ig("emw")
         assert "whatsapp" in caption.lower()
-        assert "iris.prizma.cloud" in caption
+        assert "iris.prisma-enterprice.cloud" in caption
         # No debe decir ERP
         assert "erp" not in caption.lower().replace("enterprice", "")
 

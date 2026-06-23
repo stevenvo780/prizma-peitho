@@ -44,7 +44,7 @@ y automatización en una sola suite empresarial para pymes en crecimiento.
 - País foco: Colombia. ICP: Retail/tiendas, food/dark kitchens, servicios/educación.
 
 PRODUCTOS (cada uno con su URL y pricing):
-⭐ EMW — Marketing masivo por WhatsApp ($88.000) → iris.prizma.cloud
+⭐ EMW — Marketing masivo por WhatsApp ($88.000) → iris.prisma-enterprice.cloud
    Pain: "Tengo miles de contactos pero no sé cómo activarlos sin parecer spam"
    Ángulo: Recupera ventas dormidas con campañas segmentadas.
 
@@ -52,7 +52,7 @@ PRODUCTOS (cada uno con su URL y pricing):
    Pain: "Recibo pedidos por chat pero se pierden, no tengo orden"
    Ángulo: Más pedidos cerrados con catálogo digital en WhatsApp.
 
-🚚 Talaria — Logística de entregas ($49.500/mes) → www.prizma.cloud
+🚚 Talaria — Logística de entregas ($49.500/mes) → www.prisma-enterprice.cloud
    Pain: "No sé dónde están mis domiciliarios ni cuánto tarda cada entrega"
    Ángulo: Entregas rápidas con trazabilidad y asignación automática.
 
@@ -60,15 +60,15 @@ PRODUCTOS (cada uno con su URL y pricing):
    Pain: "No sé cuánto vendí hoy ni qué tengo en inventario"
    Ángulo: Control de caja e inventario en tiempo real.
 
-🏛️ Agora — Workspace colaborativo ($30.000/mes) → agora.prizma.cloud
+🏛️ Agora — Workspace colaborativo ($30.000/mes) → agora.prisma-enterprice.cloud
    Pain: "Mi equipo trabaja en 5 herramientas y nada está conectado"
    Ángulo: Editor, terminal y workspace en un solo lugar.
 
-🖥️ Terminal — Soporte técnico remoto ($10/mes) → terminal.prizma.cloud
+🖥️ Terminal — Soporte técnico remoto ($10/mes) → terminal.prisma-enterprice.cloud
    Pain: "Acceder a servidores remotos es un dolor"
    Ángulo: Soporte ágil desde el navegador.
 
-💰 Fiar — Control de créditos (Próximamente) → pistis.prizma.cloud
+💰 Fiar — Control de créditos (Próximamente) → pistis.prisma-enterprice.cloud
    Pain: "Fío a clientes pero no tengo trazabilidad de quién debe cuánto"
    Ángulo: Control digital de cartera.
 
@@ -99,7 +99,7 @@ ESTRUCTURA DE POST IDEAL:
 [3-5 hashtags relevantes]
 
 REGLAS ABSOLUTAS:
-✅ Usar URL del producto específico, NUNCA prizma.cloud genérico (salvo awareness).
+✅ Usar URL del producto específico, NUNCA prisma-enterprice.cloud genérico (salvo awareness).
 ✅ Incluir CTA claro con precio o beneficio.
 ✅ Mencionar Colombia o contexto pyme.
 ❌ NUNCA decir "Prizma" como si fuera un producto.

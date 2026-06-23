@@ -203,7 +203,7 @@ def build_utm_url(
     Construye una URL con parámetros UTM para tracking de conversiones.
 
     Uso:
-        url = build_utm_url("https://iris.prizma.cloud",
+        url = build_utm_url("https://iris.prisma-enterprice.cloud",
                             campaign="lanzamiento_peitho",
                             content="post_feed_iris")
     """
@@ -236,8 +236,8 @@ PRODUCTOS = {
         "color_secundario": "#2a2c39",
         "color_fondo": "#f6f9ff",
         "tema": "claro",
-        "url": "https://prizma.cloud",
-        "cta": "Empieza gratis → prizma.cloud",
+        "url": "https://prisma-enterprice.cloud",
+        "cta": "Empieza gratis → prisma-enterprice.cloud",
         "productos_estrella": ["Graf", "EMW"],
         "logos": [
             "logos/prizma/prizma-1080-variante1.png",
@@ -258,8 +258,8 @@ PRODUCTOS = {
         "color_secundario": "#128C7E",
         "color_fondo": "#ffffff",
         "tema": "claro",
-        "url": "https://iris.prizma.cloud",
-        "cta": "Empieza gratis → iris.prizma.cloud",
+        "url": "https://iris.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → iris.prisma-enterprice.cloud",
         "precio_desde": "$88.000",
         "linea": "Comercial",
         "publico_objetivo": "Equipos de ventas y marketing que necesitan captar y reactivar clientes por WhatsApp",
@@ -311,8 +311,8 @@ PRODUCTOS = {
         "color_secundario": "#003049",
         "color_fondo": "#ffffff",
         "tema": "claro",
-        "url": "https://www.prizma.cloud",
-        "cta": "Empieza gratis → www.prizma.cloud",
+        "url": "https://www.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → www.prisma-enterprice.cloud",
         "precio_desde": "$49.500/mes",
         "linea": "Operación",
         "publico_objetivo": "Negocios con domicilios que necesitan organizar entregas y asignar domiciliarios",
@@ -360,8 +360,8 @@ PRODUCTOS = {
         "color_secundario": "#ffa726",
         "color_fondo": "#121212",
         "tema": "oscuro",
-        "url": "https://agora.prizma.cloud",
-        "cta": "Empieza gratis → agora.prizma.cloud",
+        "url": "https://agora.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → agora.prisma-enterprice.cloud",
         "precio_desde": "$30.000/mes",
         "linea": "Productividad",
         "publico_objetivo": "Equipos técnicos, academias y empresas que necesitan workspace colaborativo en la nube",
@@ -384,8 +384,8 @@ PRODUCTOS = {
         "color_secundario": "#4db6ac",
         "color_fondo": "#121212",
         "tema": "oscuro",
-        "url": "https://terminal.prizma.cloud",
-        "cta": "Empieza gratis → terminal.prizma.cloud",
+        "url": "https://terminal.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → terminal.prisma-enterprice.cloud",
         "precio_desde": "$10/mes",
         "linea": "Productividad",
         "publico_objetivo": "Equipos de soporte técnico y operaciones que necesitan acceso remoto a servidores",
@@ -406,8 +406,8 @@ PRODUCTOS = {
         "color_secundario": "#06d6a0",
         "color_fondo": "#f5eedc",
         "tema": "claro",
-        "url": "https://pistis.prizma.cloud",
-        "cta": "Empieza gratis → pistis.prizma.cloud",
+        "url": "https://pistis.prisma-enterprice.cloud",
+        "cta": "Empieza gratis → pistis.prisma-enterprice.cloud",
         "precio_desde": "Próximamente",
         "linea": "Facturación",
         "publico_objetivo": "Comercios que fían a clientes y necesitan trazabilidad digital de créditos",
@@ -485,7 +485,7 @@ def generar_caption_ig(producto_key: str) -> str:
     nombre = prod["nombre"]
     desc = prod["descripcion"]
     slogan = prod["slogan"]
-    url = prod.get("url", "https://prizma.cloud")
+    url = prod.get("url", "https://prisma-enterprice.cloud")
     precio = prod.get("precio_desde", "")
     linea = prod.get("linea", "")
 

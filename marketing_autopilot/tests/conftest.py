@@ -45,7 +45,7 @@ def sample_estrategia():
                 "EMW te permite enviar campañas segmentadas por WhatsApp "
                 "para recuperar clientes dormidos.\n\n"
                 "Más de 60 pymes ya lo usan. Desde $88.000/mes.\n\n"
-                "👉 emw.prizma.cloud\n\n"
+                "👉 emw.prisma-enterprice.cloud\n\n"
                 "#pymescolombia #whatsappmarketing #emw"
             ),
         },
